@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    {% load static %}
+    {% load django_browser_reload %}
+    
+    <!-- นำเข้า CSS -->
+    <link rel="stylesheet" href="{% static 'pages/css/background.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/glass-box.css' %}">
+    <!-- Font Awesome สำหรับไอคอน -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Canvas สำหรับเอฟเฟกต์ฝน -->
+    <canvas id="rainCanvas"></canvas>
+
+    <!-- กล่องใส -->
+    <div class="glass-container" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 400px;">
+        {% include 'pages/profile_content.html' %}
+    </div>
+
+    <!-- นำเข้า JavaScript -->
+    <script src="{% static 'pages/js/rain.js' %}"></script>
+    <script>
+        // เริ่มเอฟเฟกต์ฝน
+        startRainEffect('rainCanvas');
+    </script>
+</body>
+</html>

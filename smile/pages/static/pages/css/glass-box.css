@@ -1,0 +1,64 @@
+/* สไตล์สำหรับกล่องใส */
+.glass-container {
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+/* เอฟเฟกต์แสงสะท้อน */
+.glass-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    animation: shineEffect 8s infinite linear;
+}
+
+/* อนิเมชันแสงสะท้อน */
+@keyframes shineEffect {
+    from {
+        transform: rotate(30deg) translateX(-100%);
+    }
+    to {
+        transform: rotate(30deg) translateX(100%);
+    }
+}
+
+/* สไตล์ของเนื้อหาภายใน */
+.glass-content {
+    position: relative;
+    z-index: 1;
+    color: white;
+}
+
+/* จัดการลิงก์และไอคอน */
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: white;
+}
