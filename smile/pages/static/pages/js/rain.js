@@ -9,7 +9,7 @@ class Raindrop {
   }
 
   reset(randomY = false) {
-    const { sizeMin, sizeMax, baseSpeed, direction } = this.opts;
+    const { sizeMin, sizeMax, baseSpeed, direction, colors } = this.opts;
     this.x = Math.random() * this.canvas.width;
     this.y = randomY ? Math.random() * this.canvas.height : -20;
 
@@ -20,6 +20,23 @@ class Raindrop {
 
     this.vy = direction === 'up' ? -speed : speed; // ปกติลงล่าง
     this.vx = 0;
+
+    // สุ่มสีจากชุดสีที่กำหนด
+    if (colors && colors.length > 0) {
+      const colorIndex = Math.floor(Math.random() * colors.length);
+      const color = colors[colorIndex];
+      // แปลงสีเป็น RGB ถ้าเป็น hex
+      if (color.startsWith('#')) {
+        const r = parseInt(color.slice(1, 3), 16);
+        const g = parseInt(color.slice(3, 5), 16);
+        const b = parseInt(color.slice(5, 7), 16);
+        this.color = `${r}, ${g}, ${b}`;
+      } else {
+        this.color = color;
+      }
+    } else {
+      this.color = '174, 194, 224'; // สีเดิม
+    }
 
     this.opacity = 0.12 + Math.random() * 0.2;
     this.localDrift = (Math.random() - 0.5) * 0.6; // ส่ายยิบๆ เบาๆ
@@ -44,7 +61,7 @@ class Raindrop {
 
   draw(ctx) {
     ctx.beginPath();
-    ctx.strokeStyle = `rgba(174, 194, 224, ${this.opacity})`;
+    ctx.strokeStyle = `rgba(${this.color}, ${this.opacity})`;
     ctx.lineWidth = 1;
 
     // หางย้อนทิศทางการเคลื่อนที่จริง
@@ -77,7 +94,14 @@ class RainEffect {
       windDecay: 0.86,     // สลายตัวต่อเฟรม (~0.3 วินาทีที่ 60fps)  // ~18 เฟรม
       windLerp: 0.28,      // ลมจริงไล่หาเป้าหมาย (ไม่หน่วงมาก)
       windFollow: 0.12,    // หยดไล่ตามลม (นุ่ม)
-      windJitter: 1.0      // ส่ายยิบ ๆ ต่อหยด
+      windJitter: 1.0,     // ส่ายยิบ ๆ ต่อหยด
+
+      // ชุดสีของฝน (สามารถกำหนดได้หลายสี)
+      colors: [
+        '174, 194, 224',   // สีฟ้าอ่อน (เดิม)
+        '255, 255, 255',   // สีขาว
+        '176, 224, 230'    // สีฟ้าน้ำทะเล
+      ]
     }, options);
 
     this.raindrops = [];

@@ -5,143 +5,161 @@ class GlassBox {
     constructor(options = {}) {
         // ค่าเริ่มต้นของกล่อง
         this.config = {
-            width: options.width || 300,           // ความกว้าง (px)
-            height: options.height || 200,         // ความสูง (px)
-            background: options.background || 'rgba(255, 255, 255, 0.1)',  // สีพื้นหลัง
-            borderColor: options.borderColor || 'rgba(255, 255, 255, 0.2)', // สีขอบ
-            blur: options.blur || 10,              // ความเบลอ (px)
-            borderRadius: options.borderRadius || 15, // ความโค้งของมุม (px)
-            borderWidth: options.borderWidth || 1,  // ความหนาของขอบ (px)
-            x: options.x || 50,                    // ตำแหน่ง X จากขอบซ้าย (px)
-            y: options.y || 50,                    // ตำแหน่ง Y จากขอบบน (px)
-            shadowColor: options.shadowColor || 'rgba(0, 0, 0, 0.2)', // สีเงา
-            shadowBlur: options.shadowBlur || 15,   // ความเบลอของเงา (px)
-            content: options.content || '',         // เนื้อหาภายในกล่อง (HTML)
-            gradient: options.gradient || false,    // เปิด/ปิดการไล่ระดับสี
-            glareEffect: options.glareEffect || false // เปิด/ปิดเอฟเฟกต์แสงสะท้อน
+            width: options.width || '300px',
+            height: options.height || 'auto',
+            position: options.position || 'relative',
+            background: 'rgba(255, 255, 255, 0.1)',
+            borderColor: 'rgba(255, 255, 255, 0.18)',
+            blur: options.blur || 12,
+            content: options.content || '',
+            layout: options.layout || {}
         };
 
         this.element = null;
+        this.shineElements = [];
         this.createBox();
     }
 
-    // สร้างกล่อง
     createBox() {
-        // สร้าง element
         this.element = document.createElement('div');
         this.element.className = 'glass-box';
         
-        // กำหนดสไตล์พื้นฐาน
+        // สไตล์พื้นฐาน
         const baseStyle = {
-            position: 'absolute',
-            width: this.config.width + 'px',
-            height: this.config.height + 'px',
-            left: this.config.x + 'px',
-            top: this.config.y + 'px',
-            background: this.config.background,
-            borderRadius: this.config.borderRadius + 'px',
-            border: `${this.config.borderWidth}px solid ${this.config.borderColor}`,
+            ...this.config.layout,
             backdropFilter: `blur(${this.config.blur}px)`,
-            boxShadow: `0 0 ${this.config.shadowBlur}px ${this.config.shadowColor}`,
+            backgroundColor: this.config.background,
+            borderRadius: '15px',
+            border: `1px solid ${this.config.borderColor}`,
+            boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.15)',
+            color: 'white',
             transition: 'all 0.3s ease',
             overflow: 'hidden'
         };
 
-        // ใส่สไตล์ให้กล่อง
         Object.assign(this.element.style, baseStyle);
 
-        // เพิ่มการไล่ระดับสีถ้าเปิดใช้งาน
-        if (this.config.gradient) {
-            this.element.style.background = `
-                linear-gradient(
-                    135deg,
-                    rgba(255, 255, 255, 0.2) 0%,
-                    rgba(255, 255, 255, 0.1) 100%
-                )
-            `;
-        }
-
-        // เพิ่มเอฟเฟกต์แสงสะท้อนถ้าเปิดใช้งาน
-        if (this.config.glareEffect) {
-            const glare = document.createElement('div');
-            glare.style.cssText = `
-                position: absolute;
-                top: -50%;
-                left: -50%;
-                width: 200%;
-                height: 200%;
-                background: linear-gradient(
-                    45deg,
-                    rgba(255, 255, 255, 0.2) 0%,
-                    rgba(255, 255, 255, 0) 60%
-                );
-                transform: rotate(35deg);
-                pointer-events: none;
-            `;
-            this.element.appendChild(glare);
-        }
-
-        // ใส่เนื้อหา
         if (this.config.content) {
             const contentDiv = document.createElement('div');
             contentDiv.className = 'glass-box-content';
-            contentDiv.style.cssText = `
-                position: relative;
-                z-index: 1;
-                padding: 20px;
-                color: white;
-            `;
+            contentDiv.style.padding = '20px';
             contentDiv.innerHTML = this.config.content;
             this.element.appendChild(contentDiv);
         }
 
-        // เพิ่มเอฟเฟกต์ hover
+        this.addEffects();
+    }
+
+    addEffects() {
+        this.addShineEffect();
         this.addHoverEffect();
     }
 
-    // เพิ่มเอฟเฟกต์เมื่อ hover
+    addShineEffect() {
+        // สร้างตัวรองรับแสง
+        const shineContainer = document.createElement('div');
+        shineContainer.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        `;
+        this.element.appendChild(shineContainer);
+
+        // สร้างแสง 3 ชุด
+        for (let i = 0; i < 3; i++) {
+            const shine = document.createElement('div');
+            shine.style.cssText = `
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 250%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0) 0%,
+                    rgba(255,255,255,0.1) 45%,
+                    rgba(255,255,255,0.15) 50%,
+                    rgba(255,255,255,0.1) 55%,
+                    rgba(255,255,255,0) 100%
+                );
+                transform: translateX(-100%);
+                transition: transform 1.5s ease-in-out;
+                mix-blend-mode: overlay;
+                opacity: 0;
+                pointer-events: none;
+            `;
+            shineContainer.appendChild(shine);
+            this.shineElements.push(shine);
+        }
+
+        // เริ่มเล่น loop animation
+        this.startShineLoop();
+    }
+
+    startShineLoop() {
+        let index = 0;
+        const animate = () => {
+            const shine = this.shineElements[index];
+            
+            // รีเซ็ตทุกอัน
+            this.shineElements.forEach(s => {
+                s.style.opacity = '0';
+                s.style.transform = 'translateX(-100%)';
+            });
+
+            // เล่นแสงปัจจุบัน
+            requestAnimationFrame(() => {
+                shine.style.opacity = '1';
+                shine.style.transform = 'translateX(100%)';
+                
+                // เลื่อนไปตัวถัดไป
+                index = (index + 1) % this.shineElements.length;
+            });
+        };
+
+        // เริ่มเล่น loop
+        const loop = () => {
+            animate();
+            setTimeout(loop, 3000); // เว้นระยะห่าง 3 วินาที
+        };
+
+        // เริ่มหลังจาก delay 1 วินาที
+        setTimeout(loop, 1000);
+    }
+
     addHoverEffect() {
         this.element.addEventListener('mouseenter', () => {
-            this.element.style.transform = 'scale(1.02)';
-            this.element.style.boxShadow = `
-                0 0 ${this.config.shadowBlur * 1.5}px ${this.config.shadowColor}
-            `;
+            this.element.style.transform = this.element.style.transform.includes('translate') 
+                ? this.element.style.transform.replace('scale(1)', 'scale(1.02)')
+                : 'scale(1.02)';
+            this.element.style.filter = 'brightness(1.1)';
         });
 
         this.element.addEventListener('mouseleave', () => {
-            this.element.style.transform = 'scale(1)';
-            this.element.style.boxShadow = `
-                0 0 ${this.config.shadowBlur}px ${this.config.shadowColor}
-            `;
+            this.element.style.transform = this.element.style.transform.includes('translate')
+                ? this.element.style.transform.replace('scale(1.02)', 'scale(1)')
+                : 'scale(1)';
+            this.element.style.filter = 'brightness(1)';
         });
     }
 
     // เพิ่มกล่องลงในหน้าเว็บ
-    addToPage() {
-        document.body.appendChild(this.element);
+    addToPage(parent = document.body) {
+        parent.appendChild(this.element);
         return this;
     }
 
     // อัพเดทค่าคอนฟิก
     updateConfig(newConfig) {
         this.config = { ...this.config, ...newConfig };
-        document.body.removeChild(this.element);
+        const parent = this.element.parentNode;
+        parent.removeChild(this.element);
         this.createBox();
-        this.addToPage();
-        return this;
-    }
-
-    // ย้ายตำแหน่ง
-    moveTo(x, y) {
-        this.element.style.left = x + 'px';
-        this.element.style.top = y + 'px';
-        return this;
-    }
-
-    // เปลี่ยนขนาด
-    resize(width, height) {
-        this.element.style.width = width + 'px';
-        this.element.style.height = height + 'px';
+        this.addToPage(parent);
         return this;
     }
 
@@ -155,19 +173,85 @@ class GlassBox {
     }
 }
 
-// ตัวอย่างการใช้งาน:
-/*
-const glassBox = new GlassBox({
-    width: 400,
-    height: 300,
-    content: '<h2>Glass Box</h2><p>This is a glass effect box</p>',
-    gradient: true,
-    glareEffect: true
-}).addToPage();
+// สร้างและเพิ่มกล่องโปรไฟล์
+function createProfileBox() {
+    return new GlassBox({
+        width: '400px',
+        height: 'auto',
+        blur: 12,
+        layout: {
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 10
+        },
+        content: `
+            <div style="text-align: center;">
+                <img src="/static/images/profile.jpg" style="width: 100px; height: 100px; border-radius: 50%;">
+                <h2>โหดมาก</h2>
+                <p>旅行的意义在于发现自我。</p>
+                <div style="margin-top: 20px;">
+                    <a href="#" style="margin: 0 10px;"><i class="fab fa-spotify"></i></a>
+                    <a href="#" style="margin: 0 10px;"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="margin: 0 10px;"><i class="far fa-bookmark"></i></a>
+                    <a href="#" style="margin: 0 10px;"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div style="margin-top: 15px;">
+                    <small>Views: 1128</small>
+                </div>
+            </div>
+        `
+    });
+}
 
-// ปรับแต่งหลังจากสร้าง
-glassBox.moveTo(100, 100);
-glassBox.resize(500, 400);
-glassBox.setContent('New content');
-glassBox.updateConfig({ blur: 20, borderRadius: 30 });
-*/
+// สร้างและเพิ่มกล่องแชท
+function createChatBox() {
+    return new GlassBox({
+        width: '350px',
+        height: '75vh',
+        blur: 8,
+        layout: {
+            position: 'absolute',
+            left: '30px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 5
+        },
+        content: `
+            <div style="height: 100%; display: flex; flex-direction: column;">
+                <h3>Live Chat</h3>
+                <div style="flex-grow: 1; overflow-y: auto;"></div>
+                <input type="text" placeholder="Type a message..." 
+                    style="margin-top: 10px; padding: 10px; border-radius: 8px; 
+                    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); 
+                    color: white;">
+            </div>
+        `
+    });
+}
+
+// สร้างและเพิ่มกล่อง Stack ด้านขวา
+function createRightStack() {
+    const container = document.createElement('div');
+    Object.assign(container.style, {
+        position: 'absolute',
+        right: '30px',
+        bottom: '30px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '15px',
+        width: '280px',
+        zIndex: 15
+    });
+
+    [1, 2].forEach(i => {
+        new GlassBox({
+            height: '120px',
+            blur: 8,
+            content: `<h3>Box ${i}</h3>`
+        }).addToPage(container);
+    });
+
+    return container;
+}

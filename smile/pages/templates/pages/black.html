@@ -9,17 +9,31 @@
     
     <!-- นำเข้า CSS -->
     <link rel="stylesheet" href="{% static 'pages/css/background.css' %}">
-    <link rel="stylesheet" href="{% static 'pages/css/glass-box.css' %}">
-    <!-- Font Awesome สำหรับไอคอน -->
+    <link rel="stylesheet" href="{% static 'pages/css/glass-layout.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Canvas สำหรับเอฟเฟกต์ฝน -->
     <canvas id="rainCanvas"></canvas>
 
-    <!-- กล่องใส -->
-    <div class="glass-container" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 400px;">
-        {% include 'pages/profile_content.html' %}
+    <!-- Layout หลัก -->
+    <div class="glass-layout">
+        <!-- กล่องแชทด้านซ้าย -->
+        <div class="glass-box glass-chat">
+            <!-- เนื้อหาแชทจะถูกเพิ่มภายหลัง -->
+        </div>
+
+        <!-- กล่องโปรไฟล์ตรงกลาง -->
+        <div class="glass-box glass-center">
+            {% include 'pages/profile_content.html' %}
+        </div>
+
+        <!-- กล่องด้านขวาล่าง -->
+        <div class="glass-right-stack">
+            <!-- กล่องต่างๆ จะถูกเพิ่มที่นี่ -->
+            <div class="glass-box" style="height: 100px;"></div>
+            <div class="glass-box" style="height: 100px;"></div>
+        </div>
     </div>
 
     <!-- นำเข้า JavaScript -->
@@ -27,6 +41,31 @@
     <script>
         // เริ่มเอฟเฟกต์ฝน
         startRainEffect('rainCanvas');
+
+        // เพิ่มเอฟเฟกต์สะเก็ดน้ำเมื่อฝนกระทบกล่อง
+        function createSplash(x, y, element) {
+            const splash = document.createElement('div');
+            splash.className = 'rain-splash';
+            splash.style.left = x + 'px';
+            splash.style.top = y + 'px';
+            element.appendChild(splash);
+            
+            // ลบสะเก็ดน้ำหลังจากอนิเมชันจบ
+            splash.addEventListener('animationend', () => {
+                splash.remove();
+            });
+        }
+
+        // ติดตามการชนของฝนกับกล่อง
+        document.querySelectorAll('.glass-box').forEach(box => {
+            const rect = box.getBoundingClientRect();
+            
+            // สร้างสะเก็ดน้ำเมื่อฝนชนขอบบนของกล่อง
+            setInterval(() => {
+                const x = Math.random() * rect.width;
+                createSplash(x, 0, box);
+            }, 500);
+        });
     </script>
 </body>
 </html>
