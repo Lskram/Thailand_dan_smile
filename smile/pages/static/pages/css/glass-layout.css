@@ -1,58 +1,82 @@
-/* ===============================
-   Layout หลักสำหรับกล่องต่างๆ
-   =============================== */
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #000;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* Container หลัก */
 .glass-layout {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none; /* ให้คลิกผ่านไปที่ canvas ได้ */
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    gap: 20px;
+    padding: 20px;
 }
 
-.glass-layout > * {
-    pointer-events: auto; /* ให้คลิกที่กล่องได้ */
+/* กล่องพื้นฐาน */
+.glass-box {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
-/* กล่องตรงกลาง */
-.glass-center {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-}
-
-/* กล่องแชทด้านซ้าย */
+/* กล่องซ้าย */
 .glass-chat {
-    position: absolute;
-    left: 30px;
-    top: 50%;
-    transform: translateY(-50%);
     width: 300px;
-    height: 70vh;
+    height: calc(100vh - 40px);
 }
 
-/* พื้นที่สำหรับกล่องขวาล่าง */
+/* กล่องกลาง */
+.glass-center {
+    flex: 1;
+    height: calc(100vh - 40px);
+    min-width: 500px;
+    overflow-y: auto;
+}
+
+/* กล่องขวา */
 .glass-right-stack {
-    position: absolute;
-    right: 30px;
-    bottom: 30px;
+    width: 300px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 250px;
 }
 
-/* สไตล์พื้นฐานของกล่องใส */
-.glass-box {
+.glass-right-stack .glass-box {
+    height: 100px;
+}
+
+/* Right Stack Individual Boxes */
+.glass-right-stack > .glass-box {
+    min-height: 150px; /* กำหนดความสูงขั้นต่ำของแต่ละกล่อง */
+    padding: 1.5rem;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 15px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
 }
 
-/* เอฟเฟกต์แสงสะท้อน */
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+/* Glass Reflection Effect */
 .glass-box::before {
     content: '';
     position: absolute;
@@ -62,12 +86,13 @@
     height: 100%;
     background: linear-gradient(
         to right,
-        rgba(255, 255, 255, 0) 0%,
+        transparent 0%,
         rgba(255, 255, 255, 0.1) 50%,
-        rgba(255, 255, 255, 0) 100%
+        transparent 100%
     );
     transform: rotate(30deg);
     animation: shine 8s infinite linear;
+    pointer-events: none;
 }
 
 @keyframes shine {
@@ -75,23 +100,21 @@
     to { transform: rotate(30deg) translateX(100%); }
 }
 
-/* สไตล์เมื่อฝนกระทบ */
-.rain-splash {
-    position: absolute;
-    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
-    border-radius: 50%;
-    pointer-events: none;
-    opacity: 0;
-    animation: splash 1s ease-out forwards;
-}
-
-@keyframes splash {
-    0% {
-        transform: scale(0);
-        opacity: 0.8;
+/* รองรับหน้าจอมือถือ */
+@media (max-width: 1024px) {
+    .glass-layout {
+        flex-direction: column;
     }
-    100% {
-        transform: scale(1);
-        opacity: 0;
+    
+    .glass-chat,
+    .glass-center,
+    .glass-right-stack {
+        width: 100%;
+    }
+    
+    .glass-chat,
+    .glass-center {
+        height: auto;
+        min-height: 300px;
     }
 }
