@@ -119,7 +119,7 @@
         .top-box::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: -20px;
+            bottom: -35px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.9);
@@ -721,6 +721,8 @@
             padding: 0;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
             height: 100%;
             position: relative;
             overflow: hidden;
@@ -738,16 +740,58 @@
             max-height: 550px;
             scrollbar-width: thin;
             scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+            -webkit-mask-image: linear-gradient(
+                to bottom,
+                transparent 0%,
+                black 100px,
+                black calc(100% - 100px),
+                transparent 100%
+            );
+            mask-image: linear-gradient(
+                to bottom,
+                transparent 0%,
+                black 100px,
+                black calc(100% - 100px),
+                transparent 100%
+            );
+            margin: auto;
+            position: relative;
         }
 
-        /* Fade overlay บน - ปิดการใช้งาน */
+        /* Fade overlay บน */
         .fade-top {
-            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(to bottom, 
+                #1a1a2e 0%,
+                #1a1a2e 20%,
+                rgba(26, 26, 46, 0.95) 40%,
+                rgba(26, 26, 46, 0.7) 60%,
+                rgba(26, 26, 46, 0.3) 80%,
+                transparent 100%);
+            pointer-events: none;
+            z-index: 10;
         }
 
-        /* Fade overlay ล่าง - ปิดการใช้งาน */
+        /* Fade overlay ล่าง */
         .fade-bottom {
-            display: none;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(to top, 
+                #1a1a2e 0%,
+                #1a1a2e 20%,
+                rgba(26, 26, 46, 0.95) 40%,
+                rgba(26, 26, 46, 0.7) 60%,
+                rgba(26, 26, 46, 0.3) 80%,
+                transparent 100%);
+            pointer-events: none;
+            z-index: 10;
         }
 
         /* 🎴 การ์ดนามบัตรแบบผืนผ้า */
@@ -904,6 +948,41 @@
 
         .business-card.video-card:hover .video-channel {
             color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Platform tag สวยงาม */
+        .video-platform {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            background: linear-gradient(
+                135deg,
+                rgba(100, 200, 255, 0.2) 0%,
+                rgba(150, 100, 255, 0.2) 100%
+            );
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin-top: 4px;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: fit-content;
+        }
+
+        .business-card.video-card:hover .video-platform {
+            background: linear-gradient(
+                135deg,
+                rgba(100, 200, 255, 0.4) 0%,
+                rgba(150, 100, 255, 0.4) 100%
+            );
+            border-color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 1);
+            box-shadow: 
+                0 0 10px rgba(100, 200, 255, 0.5),
+                0 0 20px rgba(150, 100, 255, 0.3);
         }
 
         /* Play icon overlay สำหรับวิดีโอ */

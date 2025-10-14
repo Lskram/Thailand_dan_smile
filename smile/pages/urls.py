@@ -1,8 +1,6 @@
 from django.urls import path
-from . import views
-
-app_name = 'pages'
+from .views import black_page
 
 urlpatterns = [
-    path('', views.black_page, name='black'),
+    path('', black_page, name='black_page'),  # ✅ หน้าเว็บหลัก
 ]

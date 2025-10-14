@@ -1,15 +1,9 @@
 from django.shortcuts import render
+from videos.models import Video  # ✅ ดึง model จากแอป videos
 
 def black_page(request):
+    videos = Video.objects.all().order_by('-id')  # ✅ ดึงข้อมูลจากฐานข้อมูล
     context = {
-        'profile': {
-            'name': 'nenekawaiiii',
-            'bio': '旅行的意义在于发现自我。',
-            'status': {
-                'name': 's1osomeone',
-                'last_seen': '9 minutes ago'
-            },
-            'views': 1128
-        }
+        'videos': videos
     }
     return render(request, 'pages/black.html', context)

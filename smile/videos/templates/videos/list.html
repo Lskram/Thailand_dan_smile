@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video List</title>
+</head>
+<body>
+    <h1>🎵 รายการเพลง</h1>
+    <ul>
+        {% for v in videos %}
+            <li>{{ v.title }} - {{ v.artist }} - <a href="{{ v.url }}" target="_blank">ฟังเพลง</a></li>
+        {% empty %}
+            <li>ยังไม่มีข้อมูล</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
