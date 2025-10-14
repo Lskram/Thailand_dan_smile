@@ -204,6 +204,123 @@
         .right::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.5);
         }
+
+        /* 📱 Responsive สำหรับหน้าจอมือถือ */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+                height: auto;
+                min-height: 100vh;
+                padding: 10px;
+                gap: 15px;
+            }
+
+            .left {
+                width: 100%;
+                height: 250px;
+                margin: 0;
+            }
+
+            .center {
+                gap: 15px;
+            }
+
+            /* กล่อง 1-4 เปลี่ยนเป็น 2 คอลัมน์ */
+            .top-boxes {
+                grid-template-columns: repeat(2, 1fr);
+                width: 100%;
+                height: auto;
+                gap: 10px;
+            }
+
+            .top-box {
+                height: 80px;
+                width: 100%;
+            }
+
+            .middle-section {
+                height: 300px;
+            }
+
+            .bottom-section {
+                height: 150px;
+            }
+
+            .right {
+                height: auto;
+                min-height: 300px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                height: auto;
+            }
+
+            .container {
+                width: 100%;
+                padding: 5px;
+                gap: 10px;
+            }
+
+            .left {
+                height: 200px;
+            }
+
+            /* กล่อง 1-4 เปลี่ยนเป็น 1 คอลัมน์บนหน้าจอเล็กมาก */
+            .top-boxes {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .top-box {
+                height: 70px;
+            }
+
+            .top-box h3 {
+                font-size: 14px;
+            }
+
+            .middle-section {
+                height: 250px;
+            }
+
+            .middle-section h2 {
+                font-size: 16px;
+                text-align: center;
+            }
+
+            .bottom-section {
+                height: 120px;
+            }
+
+            .bottom-section h2 {
+                font-size: 16px;
+            }
+
+            .right {
+                min-height: 250px;
+                padding: 15px;
+            }
+
+            .business-card {
+                padding: 12px;
+                min-height: 90px;
+            }
+
+            .card-name {
+                font-size: 16px;
+            }
+
+            .card-position {
+                font-size: 13px;
+            }
+
+            .card-info {
+                font-size: 11px;
+            }
+        }
     </style>
 </head>
 
