@@ -68,7 +68,7 @@
         }
 
         .top-box {
-            background: rgba(255, 255, 255, 0.05);
+            background: transparent;
             border: none;
             border-radius: 15px;
             padding: 15px;
@@ -82,13 +82,34 @@
             height: 85%;
             text-decoration: none;
             color: white;
-            backdrop-filter: blur(10px);
+            position: relative;
         }
 
         .top-box:hover {
-            background: rgba(255, 255, 255, 0.15);
             transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Tooltip กล่องข้อความ */
+        .top-box::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        .top-box:hover::after {
+            opacity: 1;
         }
 
         .top-box img {
@@ -101,6 +122,19 @@
 
         .top-box:hover img {
             filter: brightness(0) invert(1) opacity(1) drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 25px rgba(255, 255, 255, 0.6));
+            transform: scale(1.15);
+        }
+
+        /* สไตล์พิเศษสำหรับ Joox SVG */
+        .joox-icon {
+            width: 50px;
+            height: 50px;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+            transition: all 0.3s;
+        }
+
+        .top-box:hover .joox-icon {
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 25px rgba(255, 255, 255, 0.6));
             transform: scale(1.15);
         }
 
@@ -366,17 +400,24 @@
 
             <!-- ส่วนบน: 4 กล่อง -->
             <div class="top-boxes">
-                <a href="https://open.spotify.com/track/6xeieYI4KgZDT9emCrN19h?si=51fc28ae3ca64d3d" target="_blank" class="top-box">
+                <a href="https://open.spotify.com/track/6xeieYI4KgZDT9emCrN19h?si=51fc28ae3ca64d3d" target="_blank" class="top-box" data-tooltip="Spotify">
                     <img src="https://cdn.simpleicons.org/spotify/1DB954" alt="Spotify">
                 </a>
-                <a href="https://music.apple.com/th/song/thailand-dan-smile-feat-brownzer/1831206346" target="_blank" class="top-box">
+                <a href="https://music.apple.com/th/song/thailand-dan-smile-feat-brownzer/1831206346" target="_blank" class="top-box" data-tooltip="Apple Music">
                     <img src="https://cdn.simpleicons.org/applemusic/FA243C" alt="Apple Music">
                 </a>
-                <a href="https://tidal.com/track/452247935/u" target="_blank" class="top-box">
+                <a href="https://tidal.com/track/452247935/u" target="_blank" class="top-box" data-tooltip="Tidal">
                     <img src="https://cdn.simpleicons.org/tidal/000000" alt="Tidal">
                 </a>
-                <a href="https://www.joox.com/th/single/7ThmtErZRRwtvLth_+AOxg==" target="_blank" class="top-box">
-                    <img src="https://www.joox.com/favicon.ico" alt="Joox" style="width: 50px; height: 50px;">
+                <a href="https://www.joox.com/th/single/7ThmtErZRRwtvLth_+AOxg==" target="_blank" class="top-box" data-tooltip="Joox">
+                    <svg class="joox-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <!-- J แบบใหญ่และหนา -->
+                        <path d="M 35 15 L 55 15 L 55 60 Q 55 80 35 80 Q 15 80 15 60 L 25 60 Q 25 70 35 70 Q 45 70 45 60 L 45 25 L 35 25 Z" 
+                              fill="white" opacity="0.9"/>
+                        <!-- เส้นตกแต่งด้านข้าง -->
+                        <rect x="58" y="25" width="4" height="25" fill="white" opacity="0.6" rx="2"/>
+                        <rect x="65" y="30" width="4" height="15" fill="white" opacity="0.4" rx="2"/>
+                    </svg>
                 </a>
             </div>
 
