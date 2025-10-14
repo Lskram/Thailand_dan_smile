@@ -1,81 +1,285 @@
 ﻿<!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    {% load static %}
-    {% load django_browser_reload %}
-    
-    <!-- นำเข้า CSS -->
-    <link rel="stylesheet" href="{% static 'pages/css/background.css' %}">
-    <link rel="stylesheet" href="{% static 'pages/css/glass-layout.css' %}">
-    <link rel="stylesheet" href="{% static 'pages/css/video-background.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-    <!-- วิดีโอพื้นหลัง -->
-    <div class="video-background">
-        <video autoplay muted loop playsinline>
-            <source src="{% static 'pages/videos/background.mp4' %}" type="video/mp4">
-        </video>
-        <div class="video-overlay"></div>
-    </div>
-    
-    <!-- Canvas สำหรับเอฟเฟกต์ฝน -->
-    <canvas id="rainCanvas"></canvas>
 
-    <!-- Layout หลัก -->
-    <div class="glass-layout">
-        <!-- กล่องแชทด้านซ้าย -->
-        <div class="glass-box glass-chat">
-            <!-- เนื้อหาแชทจะถูกเพิ่มภายหลัง -->
-        </div>
-
-        <!-- กล่องโปรไฟล์ตรงกลาง -->
-        <div class="glass-box glass-center">
-            {% include 'pages/profile_content.html' %}
-        </div>
-
-        <!-- กล่องด้านขวาล่าง -->
-        <div class="glass-right-stack">
-            <!-- กล่องต่างๆ จะถูกเพิ่มที่นี่ -->
-            <div class="glass-box" style="height: 100px;"></div>
-            <div class="glass-box" style="height: 100px;"></div>
-        </div>
-    </div>
-
-    <!-- นำเข้า JavaScript -->
-    <script src="{% static 'pages/js/rain-effect.js' %}"></script>
-    <script src="{% static 'pages/js/glass-components.js' %}"></script>
-    <script>
-        // เริ่มเอฟเฟกต์ฝน
-        startRainEffect('rainCanvas');
-
-        // เพิ่มเอฟเฟกต์สะเก็ดน้ำเมื่อฝนกระทบกล่อง
-        function createSplash(x, y, element) {
-            const splash = document.createElement('div');
-            splash.className = 'rain-splash';
-            splash.style.left = x + 'px';
-            splash.style.top = y + 'px';
-            element.appendChild(splash);
-            
-            // ลบสะเก็ดน้ำหลังจากอนิเมชันจบ
-            splash.addEventListener('animationend', () => {
-                splash.remove();
-            });
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        // ติดตามการชนของฝนกับกล่อง
-        document.querySelectorAll('.glass-box').forEach(box => {
-            const rect = box.getBoundingClientRect();
-            
-            // สร้างสะเก็ดน้ำเมื่อฝนชนขอบบนของกล่อง
-            setInterval(() => {
-                const x = Math.random() * rect.width;
-                createSplash(x, 0, box);
-            }, 500);
-        });
-    </script>
+        body {
+            background: #1a1a2e;
+            color: white;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 📦 กล่องหลัก 3 คอลัมน์ */
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            width: 98%;
+            height: 90vh;
+            max-width: 2200px;
+        }
+
+        /* 🟦 กล่องซ้าย */
+        .left {
+            background: rgba(100, 150, 255, 0.3);
+            border: 2px solid white;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 85%;
+            height: 75%;
+            margin: auto;
+        }
+
+        /* 🟩 กล่องกลาง - แบ่งเป็น 3 ส่วน (บน กลาง ล่าง) */
+        .center {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+            height: 100%;
+        }
+
+        /* 📦 กล่อง 4 กล่องด้านบน */
+        .top-boxes {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            width: 70%;
+            height: 15%;
+            margin: 0 auto;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .top-box {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            width: 100%;
+            height: 85%;
+        }
+
+        .top-box:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+
+        /* 🎬 ส่วนกลาง */
+        .middle-section {
+            background: rgba(100, 255, 150, 0.3);
+            border: 2px solid white;
+            border-radius: 15px;
+            padding: 20px;
+            height: 70%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 📝 ส่วนล่าง */
+        .bottom-section {
+            background: rgba(100, 255, 150, 0.3);
+            border: 2px solid white;
+            border-radius: 15px;
+            padding: 20px;
+            height: 20%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 🟨 กล่องขวา - รองรับการ์ดนามบัติ */
+        .right {
+            background: rgba(255, 200, 100, 0.3);
+            border: 2px solid white;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            gap: 10px;
+            overflow-y: auto;
+        }
+
+        /* 🎴 การ์ดนามบัติแบบผืนผ้า */
+        .business-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            min-height: 100px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* เอฟเฟกต์ผืนผ้า */
+        .business-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.1) 2px,
+                    rgba(255, 255, 255, 0.1) 4px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.1) 2px,
+                    rgba(255, 255, 255, 0.1) 4px
+                );
+            pointer-events: none;
+        }
+
+        .business-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #1a1a2e;
+        }
+
+        .card-position {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .card-info {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Scrollbar สำหรับกล่องขวา */
+        .right::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .right::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .right::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .right::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- 🟦 กล่องซ้าย -->
+        <div class="left">
+            <h2>กล่องซ้าย</h2>
+        </div>
+
+        <!-- 🟩 กล่องกลาง -->
+        <div class="center">
+
+            <!-- ส่วนบน: 4 กล่อง -->
+            <div class="top-boxes">
+                <div class="top-box">
+                    <h3>กล่อง 1</h3>
+                </div>
+                <div class="top-box">
+                    <h3>กล่อง 2</h3>
+                </div>
+                <div class="top-box">
+                    <h3>กล่อง 3</h3>
+                </div>
+                <div class="top-box">
+                    <h3>กล่อง 4</h3>
+                </div>
+            </div>
+
+            <!-- ส่วนกลาง -->
+            <div class="middle-section">
+                <h2>พื้นที่กลาง (สำหรับวิดีโอ)</h2>
+            </div>
+
+            <!-- ส่วนล่าง -->
+            <div class="bottom-section">
+                <h2>พื้นที่ล่าง</h2>
+            </div>
+
+        </div>
+
+        <!-- 🟨 กล่องขวา - มีการ์ดนามบัติ -->
+        <div class="right">
+            <!-- การ์ดจะสแต็กจากล่างขึ้นบน -->
+            <div class="business-card">
+                <div class="card-name">สมชาย ใจดี</div>
+                <div class="card-position">Software Engineer</div>
+                <div class="card-info">
+                    📧 somchai@email.com<br>
+                    📱 082-xxx-xxxx
+                </div>
+            </div>
+
+            <div class="business-card">
+                <div class="card-name">สมหญิง รักงาน</div>
+                <div class="card-position">UX Designer</div>
+                <div class="card-info">
+                    📧 somying@email.com<br>
+                    📱 089-xxx-xxxx
+                </div>
+            </div>
+
+            <div class="business-card">
+                <div class="card-name">วิชัย พัฒนา</div>
+                <div class="card-position">Project Manager</div>
+                <div class="card-info">
+                    📧 vichai@email.com<br>
+                    📱 081-xxx-xxxx
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </body>
+
 </html>
