@@ -1,0 +1,51 @@
+<style>
+    /* 🎬 ส่วนกลาง */
+    .middle-section {
+        background: transparent;
+        border: none;
+        border-radius: 15px;
+        padding: 0;
+        height: 70%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        filter: drop-shadow(0 0 20px rgba(100, 200, 255, 0.4)) drop-shadow(0 0 30px rgba(150, 100, 255, 0.3)) drop-shadow(0 0 40px rgba(255, 100, 200, 0.2));
+        transition: all 0.3s ease;
+    }
+
+    .middle-section:hover {
+        filter: drop-shadow(0 0 30px rgba(100, 200, 255, 0.6)) drop-shadow(0 0 45px rgba(150, 100, 255, 0.5)) drop-shadow(0 0 60px rgba(255, 100, 200, 0.4)) drop-shadow(0 0 80px rgba(100, 255, 150, 0.3));
+        transform: scale(1.02);
+    }
+
+    .middle-section iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 15px;
+    }
+
+    /* 📱 Responsive */
+    @media (max-width: 1024px) {
+        .middle-section {
+            height: 300px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .middle-section {
+            height: 250px;
+        }
+    }
+</style>
+
+<!-- ส่วนกลาง -->
+<div class="middle-section">
+    <iframe id="youtubeVideo" src="https://www.youtube.com/embed/cIJQrqAHpZI?enablejsapi=1&vq=hd1080&hd=1"
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+    </iframe>
+</div>

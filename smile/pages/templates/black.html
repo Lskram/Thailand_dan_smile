@@ -1,0 +1,461 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a2e;
+            color: white;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 🎥 วิดีโอพื้นหลัง */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* overlay มืดเบาๆ เพื่อให้เนื้อหาเด่นขึ้น */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+
+        /* 📦 กล่องหลัก 3 คอลัมน์ */
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            width: 98%;
+            height: 90vh;
+            max-width: 2200px;
+        }
+
+        /* 🟦 กล่องซ้าย */
+        .left {
+            background: none;
+            border: 2px solid white;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 85%;
+            height: 75%;
+            margin: auto;
+        }
+
+        /* 🟩 กล่องกลาง - แบ่งเป็น 3 ส่วน (บน กลาง ล่าง) */
+        .center {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+            height: 100%;
+        }
+
+        /* 🎵 ปุ่มควบคุมเสียงเพลง */
+        .music-controls {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: all 0.5s ease;
+            max-width: 300px;
+            overflow: hidden;
+            opacity: 1;
+        }
+
+        .music-controls.collapsed {
+            max-width: 60px;
+            padding: 15px;
+            opacity: 0.2;
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .music-controls.collapsed .volume-slider,
+        .music-controls.collapsed .volume-level {
+            opacity: 0;
+            width: 0;
+            pointer-events: none;
+        }
+
+        .music-controls:hover {
+            background: rgba(0, 0, 0, 0.85);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            opacity: 1 !important;
+            max-width: 300px !important;
+        }
+
+        /* ปุ่ม Mute/Unmute */
+        .mute-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mute-btn:hover {
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+
+        /* Volume Slider */
+        .volume-slider {
+            width: 100px;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.5s;
+        }
+
+        .volume-slider:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Slider Thumb */
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s;
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .volume-slider::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Volume Level Indicator */
+        .volume-level {
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* 📱 Responsive สำหรับหน้าจอมือถือ */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+                height: auto;
+                min-height: 100vh;
+                padding: 10px;
+                gap: 15px;
+            }
+
+            .left {
+                width: 100%;
+                height: 250px;
+                margin: 0;
+            }
+
+            .center {
+                gap: 15px;
+            }
+
+            .music-controls {
+                bottom: 25px;
+                left: 25px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                height: auto;
+            }
+
+            .container {
+                width: 100%;
+                padding: 5px;
+                gap: 10px;
+            }
+
+            .left {
+                height: 200px;
+            }
+
+            .music-controls {
+                bottom: 20px;
+                left: 20px;
+                padding: 12px 15px;
+                gap: 10px;
+            }
+
+            .music-controls.collapsed {
+                padding: 12px;
+            }
+
+            .volume-slider {
+                width: 60px;
+            }
+
+            .volume-level {
+                font-size: 12px;
+                min-width: 30px;
+            }
+
+            .mute-btn {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 🎵 เสียงเพลงพื้นหลัง -->
+    <audio id="bgMusic" loop>
+        <source src="{% static 'pages/music/thailanddansmile_Music.MP3' %}" type="audio/mpeg">
+    </audio>
+
+    <!-- 🎛️ ปุ่มควบคุมเสียง -->
+    <div class="music-controls">
+        <button class="mute-btn" id="muteBtn" onclick="toggleMute()">
+            🔊
+        </button>
+        <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider"
+            oninput="changeVolume(this.value)">
+        <span class="volume-level" id="volumeLevel">50%</span>
+    </div>
+
+    <!-- 🎥 วิดีโอพื้นหลัง -->
+    <video class="video-background" autoplay muted loop playsinline>
+        <source src="{% static 'pages/videos/background.mp4' %}" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+
+    <div class="container">
+
+        <!-- 🟦 กล่องซ้าย -->
+        <div class="left">
+            <h2>กล่องซ้าย</h2>
+        </div>
+
+        <!-- 🟩 กล่องกลาง -->
+        <div class="center">
+
+            <!-- ส่วนบน: 4 กล่อง - Import จาก middle_top.html -->
+            {% include 'middle_top.html' %}
+
+            <!-- ส่วนกลาง - Import จาก middle.html -->
+            {% include 'middle.html' %}
+
+            <!-- ส่วนล่าง - Import จาก mid-low.html -->
+            {% include 'mid-low.html' %}
+
+        </div>
+
+        <!-- 🟨 กล่องขวา - Video List - Import จาก right_Box.html -->
+        {% include 'right_Box.html' %}
+
+    </div>
+
+    <script>
+        const audio = document.getElementById('bgMusic');
+        const muteBtn = document.getElementById('muteBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeLevel = document.getElementById('volumeLevel');
+        const musicControls = document.querySelector('.music-controls');
+        const youtubeIframe = document.getElementById('youtubeVideo');
+        let collapseTimeout;
+        let musicWasPausedByVideo = false;
+
+        // ตั้งค่าเริ่มต้น
+        audio.volume = 0.5;
+
+        // 🎬 ฟังก์ชันสำหรับแปลง URL เป็น YouTube Video ID
+        function getYouTubeVideoId(url) {
+            // รองรับหลายรูปแบบ URL
+            const patterns = [
+                /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\?\/]+)/,
+                /^([a-zA-Z0-9_-]{11})$/ // รองรับ video ID โดยตรง
+            ];
+
+            for (let pattern of patterns) {
+                const match = url.match(pattern);
+                if (match && match[1]) {
+                    return match[1];
+                }
+            }
+            return null;
+        }
+
+        // 🎬 เมื่อคลิกที่การ์ดวิดีโอ ให้เปลี่ยนวิดีโอที่กล่องกลาง
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('click', function (e) {
+                e.preventDefault(); // ป้องกันการเปิดลิงก์ใหม่
+
+                const videoUrl = this.getAttribute('href');
+                const videoId = getYouTubeVideoId(videoUrl);
+
+                if (videoId) {
+                    // เปลี่ยน src ของ iframe
+                    youtubeIframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&vq=hd1080&hd=1&autoplay=1`;
+
+                    // หยุดเพลงชั่วคราว
+                    if (!audio.paused) {
+                        audio.pause();
+                        musicWasPausedByVideo = true;
+                    }
+
+                    // เพิ่มเอฟเฟกต์ visual feedback
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                } else {
+                    console.error('ไม่สามารถดึง YouTube Video ID จาก URL:', videoUrl);
+                }
+            });
+        });
+
+        // ตรวจจับเมื่อผู้ใช้คลิกที่วิดีโอ YouTube
+        youtubeIframe.addEventListener('load', function () {
+            document.querySelector('.middle-section').addEventListener('click', function () {
+                if (!audio.paused) {
+                    audio.pause();
+                    musicWasPausedByVideo = true;
+                }
+            });
+        });
+
+        function collapseControls() {
+            musicControls.classList.add('collapsed');
+        }
+
+        function expandControls() {
+            musicControls.classList.remove('collapsed');
+            resetCollapseTimer();
+        }
+
+        function resetCollapseTimer() {
+            clearTimeout(collapseTimeout);
+            collapseTimeout = setTimeout(collapseControls, 2000);
+        }
+
+        function toggleMute() {
+            if (audio.muted) {
+                audio.muted = false;
+                muteBtn.textContent = '🔊';
+            } else {
+                audio.muted = true;
+                muteBtn.textContent = '🔇';
+            }
+            resetCollapseTimer();
+        }
+
+        function changeVolume(value) {
+            audio.volume = value / 100;
+            volumeLevel.textContent = value + '%';
+
+            if (value == 0) {
+                muteBtn.textContent = '🔇';
+                audio.muted = true;
+            } else {
+                audio.muted = false;
+                if (value < 30) {
+                    muteBtn.textContent = '🔈';
+                } else if (value < 70) {
+                    muteBtn.textContent = '🔉';
+                } else {
+                    muteBtn.textContent = '🔊';
+                }
+            }
+            resetCollapseTimer();
+        }
+
+        musicControls.addEventListener('mouseenter', expandControls);
+        musicControls.addEventListener('mouseleave', resetCollapseTimer);
+        musicControls.addEventListener('click', expandControls);
+        volumeSlider.addEventListener('input', function () {
+            changeVolume(this.value);
+        });
+
+        document.addEventListener('click', function () {
+            if (audio.paused && !musicWasPausedByVideo) {
+                audio.play().catch(e => console.log('Auto-play prevented:', e));
+            }
+        }, { once: true });
+
+        window.addEventListener('load', function () {
+            audio.play().catch(e => {
+                console.log('Auto-play prevented. Click anywhere to start music.');
+            });
+            resetCollapseTimer();
+        });
+    </script>
+
+</body>
+
+</html>

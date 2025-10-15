@@ -1,0 +1,714 @@
+<style>
+    /* 📝 ส่วนล่าง */
+    .bottom-section {
+        background: transparent;
+        border: none;
+        border-radius: 15px;
+        padding: 20px;
+        height: 20%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 25px;
+    }
+
+    /* ✨✨✨ การ์ดใน bottom section - เพิ่ม OUTLINE GLOW ✨✨✨ */
+    .bottom-card {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+        align-items: center;
+        background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.08) 0%,
+                rgba(255, 255, 255, 0.04) 50%,
+                rgba(255, 255, 255, 0.08) 100%);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+        padding: 18px 20px;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: visible;
+        box-shadow:
+            0 8px 32px rgba(0, 0, 0, 0.3),
+            0 0 40px rgba(229, 228, 226, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+        width: auto;
+        max-width: 400px;
+        backdrop-filter: blur(10px);
+    }
+
+    /* ✨ เพิ่ม Animated Outline Glow - หมุนรอบการ์ด */
+    .bottom-card::before {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        border-radius: 20px;
+        background: conic-gradient(from 0deg,
+                transparent 0deg,
+                transparent 330deg,
+                rgba(100, 200, 255, 0.5) 340deg,
+                rgba(100, 200, 255, 0.8) 345deg,
+                rgba(150, 100, 255, 1) 350deg,
+                rgba(255, 100, 200, 1) 355deg,
+                rgba(255, 200, 100, 1) 360deg,
+                rgba(255, 200, 100, 0.5) 5deg,
+                transparent 15deg,
+                transparent 360deg);
+        z-index: -1;
+        animation: rotateOutlineGlow 3s linear infinite;
+        filter: blur(8px);
+        opacity: 0.7;
+    }
+
+    @keyframes rotateOutlineGlow {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* เอฟเฟกต์แสงแพลตินัมเรืองอยู่ตลอด */
+    .bottom-card::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle,
+                rgba(229, 228, 226, 0.25) 0%,
+                rgba(192, 192, 192, 0.15) 25%,
+                transparent 50%);
+        animation: rotateGlowPlatinum 4s linear infinite;
+        opacity: 1;
+        z-index: -2;
+    }
+
+    @keyframes rotateGlowPlatinum {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .bottom-card:hover {
+        background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.08) 50%,
+                rgba(255, 255, 255, 0.15) 100%);
+        border-color: rgba(255, 255, 255, 0.6);
+        transform: translateY(-8px) scale(1.03);
+        box-shadow:
+            0 12px 48px rgba(0, 0, 0, 0.4),
+            0 0 60px rgba(229, 228, 226, 0.4),
+            0 0 80px rgba(255, 255, 255, 0.3),
+            0 0 100px rgba(192, 192, 192, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    /* ✨ Hover = หมุนเร็วขึ้น */
+    .bottom-card:hover::before {
+        animation: rotateOutlineGlow 1.5s linear infinite;
+        opacity: 1;
+    }
+
+    .bottom-card:active {
+        transform: translateY(-6px) scale(1.01);
+        box-shadow:
+            0 8px 32px rgba(0, 0, 0, 0.5),
+            0 0 50px rgba(229, 228, 226, 0.6);
+    }
+
+    /* รูปภาพในการ์ด - ทำเป็นวงกลม */
+    .bottom-card-image {
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+        border: 3px solid rgba(255, 255, 255, 0.8);
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow:
+            0 0 20px rgba(255, 255, 255, 0.8),
+            0 0 40px rgba(255, 255, 255, 0.6),
+            0 0 60px rgba(255, 255, 255, 0.4),
+            0 0 80px rgba(229, 228, 226, 0.3),
+            0 6px 20px rgba(0, 0, 0, 0.3),
+            inset 0 0 20px rgba(255, 255, 255, 0.2);
+        position: relative;
+        z-index: 1;
+        animation: profileGlow 3s ease-in-out infinite;
+        overflow: hidden;
+    }
+
+    @keyframes profileGlow {
+
+        0%,
+        100% {
+            box-shadow:
+                0 0 20px rgba(255, 255, 255, 0.8),
+                0 0 40px rgba(255, 255, 255, 0.6),
+                0 0 60px rgba(255, 255, 255, 0.4),
+                0 0 80px rgba(229, 228, 226, 0.3),
+                0 6px 20px rgba(0, 0, 0, 0.3),
+                inset 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        50% {
+            box-shadow:
+                0 0 30px rgba(255, 255, 255, 1),
+                0 0 50px rgba(255, 255, 255, 0.8),
+                0 0 70px rgba(255, 255, 255, 0.6),
+                0 0 90px rgba(229, 228, 226, 0.5),
+                0 6px 20px rgba(0, 0, 0, 0.3),
+                inset 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+    }
+
+    .bottom-card:hover .bottom-card-image {
+        border-color: rgba(255, 255, 255, 1);
+        transform: scale(1.08) rotate(5deg);
+        box-shadow:
+            0 0 35px rgba(255, 255, 255, 1),
+            0 0 60px rgba(255, 255, 255, 0.9),
+            0 0 85px rgba(255, 255, 255, 0.7),
+            0 0 110px rgba(229, 228, 226, 0.6),
+            0 0 140px rgba(192, 192, 192, 0.4),
+            0 8px 30px rgba(0, 0, 0, 0.4),
+            inset 0 0 30px rgba(255, 255, 255, 0.4);
+        animation: none;
+    }
+
+    /* เมื่อ hover ที่รูปโปรไฟล์โดยตรง - ขยายพอประมาณไม่ชนขอบ */
+    .bottom-card-image:hover {
+        transform: scale(1.25) rotate(0deg) translateY(-8px) !important;
+        border: 5px solid rgba(255, 255, 255, 1);
+        box-shadow:
+            0 0 20px rgba(255, 255, 255, 1),
+            0 0 40px rgba(255, 255, 255, 1),
+            0 0 60px rgba(255, 255, 255, 0.9),
+            0 0 80px rgba(229, 228, 226, 1),
+            0 0 100px rgba(192, 192, 192, 0.9),
+            0 0 120px rgba(255, 255, 255, 0.8),
+            0 0 140px rgba(229, 228, 226, 0.7),
+            0 0 160px rgba(255, 255, 255, 0.6),
+            0 0 180px rgba(192, 192, 192, 0.5),
+            0 0 200px rgba(229, 228, 226, 0.4),
+            0 20px 60px rgba(0, 0, 0, 0.6),
+            inset 0 0 50px rgba(255, 255, 255, 0.6),
+            inset 0 0 30px rgba(229, 228, 226, 0.4);
+        z-index: 100;
+        cursor: pointer;
+        filter: brightness(1.15) contrast(1.1) saturate(1.2);
+        animation: luxuryPulse 2s ease-in-out infinite;
+    }
+
+    /* Animation หรูหราสำหรับรูปที่ขยาย */
+    @keyframes luxuryPulse {
+
+        0%,
+        100% {
+            filter: brightness(1.15) contrast(1.1) saturate(1.2);
+            box-shadow:
+                0 0 20px rgba(255, 255, 255, 1),
+                0 0 40px rgba(255, 255, 255, 1),
+                0 0 60px rgba(255, 255, 255, 0.9),
+                0 0 80px rgba(229, 228, 226, 1),
+                0 0 100px rgba(192, 192, 192, 0.9),
+                0 0 120px rgba(255, 255, 255, 0.8),
+                0 0 140px rgba(229, 228, 226, 0.7),
+                0 0 160px rgba(255, 255, 255, 0.6),
+                0 0 180px rgba(192, 192, 192, 0.5),
+                0 0 200px rgba(229, 228, 226, 0.4),
+                0 20px 60px rgba(0, 0, 0, 0.6),
+                inset 0 0 50px rgba(255, 255, 255, 0.6),
+                inset 0 0 30px rgba(229, 228, 226, 0.4);
+        }
+
+        50% {
+            filter: brightness(1.25) contrast(1.15) saturate(1.3);
+            box-shadow:
+                0 0 30px rgba(255, 255, 255, 1),
+                0 0 50px rgba(255, 255, 255, 1),
+                0 0 70px rgba(255, 255, 255, 1),
+                0 0 90px rgba(229, 228, 226, 1),
+                0 0 110px rgba(192, 192, 192, 1),
+                0 0 130px rgba(255, 255, 255, 0.9),
+                0 0 150px rgba(229, 228, 226, 0.8),
+                0 0 170px rgba(255, 255, 255, 0.7),
+                0 0 190px rgba(192, 192, 192, 0.6),
+                0 0 210px rgba(229, 228, 226, 0.5),
+                0 20px 60px rgba(0, 0, 0, 0.6),
+                inset 0 0 60px rgba(255, 255, 255, 0.7),
+                inset 0 0 40px rgba(229, 228, 226, 0.5);
+        }
+    }
+
+    /* เพิ่ม ring effect รอบรูป */
+    .bottom-card-image::after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        opacity: 0;
+        transition: all 0.5s ease;
+        pointer-events: none;
+    }
+
+    .bottom-card-image:hover::after {
+        opacity: 1;
+        top: -15px;
+        left: -15px;
+        right: -15px;
+        bottom: -15px;
+        border-color: rgba(255, 255, 255, 0.6);
+        box-shadow:
+            0 0 30px rgba(255, 255, 255, 0.8),
+            inset 0 0 30px rgba(255, 255, 255, 0.4);
+        animation: ringPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes ringPulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+            opacity: 0.6;
+        }
+
+        50% {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+    }
+
+    .bottom-card:active .bottom-card-image {
+        transform: scale(1.05) rotate(2deg);
+    }
+
+    /* ข้อมูลในการ์ด */
+    .bottom-card-info {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex-grow: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Container สำหรับ Jobs (เหมือน video-meta-info) */
+    .caster-jobs-info {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 4px;
+        flex-wrap: wrap;
+    }
+
+    /* แต่ละ Job Badge - แยกกัน */
+    .caster-job-item {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.7);
+        background: linear-gradient(135deg,
+                rgba(255, 200, 100, 0.2) 0%,
+                rgba(255, 150, 50, 0.2) 100%);
+        padding: 3px 8px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+        white-space: nowrap;
+    }
+
+    /* Hover effects - แต่ละ Job */
+    .bottom-card:hover .caster-job-item {
+        background: linear-gradient(135deg,
+                rgba(255, 200, 100, 0.4) 0%,
+                rgba(255, 150, 50, 0.4) 100%);
+        border-color: rgba(255, 255, 255, 0.4);
+        color: rgba(255, 255, 255, 1);
+        box-shadow:
+            0 0 10px rgba(255, 200, 100, 0.5),
+            0 0 20px rgba(255, 150, 50, 0.3);
+    }
+
+    /* Hover แต่ละ job item เมื่อชี้ตรงนั้น */
+    .caster-job-item:hover {
+        transform: scale(1.1);
+        background: linear-gradient(135deg,
+                rgba(255, 200, 100, 0.6) 0%,
+                rgba(255, 150, 50, 0.6) 100%);
+    }
+
+    /* ชื่อ */
+    .bottom-card-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        line-height: 1.2;
+        text-shadow:
+            0 2px 10px rgba(0, 0, 0, 0.6),
+            0 0 20px rgba(229, 228, 226, 0.3);
+        transition: all 0.4s ease;
+        white-space: nowrap;
+    }
+
+    .bottom-card:hover .bottom-card-title {
+        color: #ffffff;
+        text-shadow:
+            0 0 15px rgba(229, 228, 226, 0.9),
+            0 0 25px rgba(255, 255, 255, 0.7),
+            0 0 35px rgba(192, 192, 192, 0.5),
+            0 2px 15px rgba(0, 0, 0, 0.8);
+        transform: translateX(3px);
+    }
+
+    /* Row ของ icons */
+    .bottom-card-icons {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .bottom-card-icons a {
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    /* แต่ละ icon - เอฟเฟกต์หรูหราด้วยไฟวิ่งรอบวงกลม */
+    .bottom-icon {
+        width: 34px;
+        height: 34px;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        cursor: pointer;
+        filter: brightness(0) invert(1) opacity(0.75);
+        border-radius: 50%;
+        padding: 6px;
+        background: rgba(255, 255, 255, 0.08);
+        border: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: visible;
+    }
+
+    /* วงแสงวิ่งรอบไอคอน - วิ่งช้าและวนไปกลับมา */
+    .bottom-icon::before {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        border-radius: 50%;
+        background: conic-gradient(from 0deg,
+                transparent 0deg,
+                transparent 270deg,
+                rgba(255, 255, 255, 0.8) 280deg,
+                rgba(255, 255, 255, 1) 290deg,
+                rgba(229, 228, 226, 1) 300deg,
+                rgba(192, 192, 192, 0.8) 310deg,
+                transparent 320deg,
+                transparent 360deg);
+        animation: rotateLight 6s linear infinite alternate;
+        z-index: -1;
+    }
+
+    /* แต่ละไอคอนหมุนด้วยความเร็วต่างกัน และวนไปกลับมา */
+    .bottom-card-icons a:nth-child(1) .bottom-icon::before {
+        animation: rotateLight 6s linear infinite alternate;
+    }
+
+    .bottom-card-icons a:nth-child(2) .bottom-icon::before {
+        animation: rotateLight 7s linear infinite alternate;
+        animation-delay: 1.5s;
+    }
+
+    .bottom-card-icons a:nth-child(3) .bottom-icon::before {
+        animation: rotateLight 5.5s linear infinite alternate;
+        animation-delay: 3s;
+    }
+
+    @keyframes rotateLight {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* แสงเรืองรอบไอคอนเบาๆ */
+    .bottom-icon::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120%;
+        height: 120%;
+        border-radius: 50%;
+        background: radial-gradient(circle,
+                rgba(255, 255, 255, 0.2) 0%,
+                transparent 70%);
+        opacity: 0.6;
+        animation: glowPulse 2s ease-in-out infinite;
+        z-index: -2;
+    }
+
+    @keyframes glowPulse {
+
+        0%,
+        100% {
+            opacity: 0.4;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        50% {
+            opacity: 0.8;
+            transform: translate(-50%, -50%) scale(1.15);
+        }
+    }
+
+    .bottom-icon:hover {
+        transform: translateY(-6px) scale(1.25) rotate(8deg);
+        filter: brightness(0) invert(1) opacity(1);
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        box-shadow:
+            0 10px 25px rgba(0, 0, 0, 0.5),
+            0 0 30px rgba(100, 200, 255, 0.7),
+            0 0 45px rgba(150, 100, 255, 0.5);
+    }
+
+    .bottom-icon:hover::before {
+        animation: rotateLight 3s linear infinite alternate !important;
+        background: conic-gradient(from 0deg,
+                transparent 0deg,
+                transparent 250deg,
+                rgba(255, 255, 255, 1) 270deg,
+                rgba(229, 228, 226, 1) 280deg,
+                rgba(255, 255, 255, 1) 290deg,
+                rgba(192, 192, 192, 1) 300deg,
+                rgba(255, 255, 255, 0.8) 310deg,
+                transparent 330deg,
+                transparent 360deg);
+    }
+
+    .bottom-icon:active {
+        transform: translateY(-4px) scale(1.15) rotate(3deg);
+        box-shadow:
+            0 6px 20px rgba(0, 0, 0, 0.6),
+            0 0 25px rgba(100, 200, 255, 0.9);
+    }
+
+    /* เอฟเฟกต์พิเศษสำหรับแต่ละไอคอน - สีเฉพาะตัว */
+    .bottom-card-icons a:nth-child(1) .bottom-icon:hover {
+        box-shadow:
+            0 10px 25px rgba(0, 0, 0, 0.5),
+            0 0 30px rgba(255, 100, 150, 0.9),
+            0 0 45px rgba(255, 50, 100, 0.7),
+            0 0 60px rgba(255, 0, 80, 0.5);
+    }
+
+    .bottom-card-icons a:nth-child(1) .bottom-icon:hover::before {
+        animation: rotateLight 3s linear infinite alternate !important;
+        background: conic-gradient(from 0deg,
+                transparent 0deg,
+                transparent 250deg,
+                rgba(255, 100, 150, 1) 270deg,
+                rgba(255, 50, 100, 1) 280deg,
+                rgba(255, 100, 150, 1) 290deg,
+                rgba(255, 0, 80, 1) 300deg,
+                rgba(255, 100, 150, 0.8) 310deg,
+                transparent 330deg,
+                transparent 360deg);
+    }
+
+    .bottom-card-icons a:nth-child(2) .bottom-icon:hover {
+        box-shadow:
+            0 10px 25px rgba(0, 0, 0, 0.5),
+            0 0 30px rgba(100, 150, 255, 0.9),
+            0 0 45px rgba(50, 100, 255, 0.7),
+            0 0 60px rgba(0, 80, 255, 0.5);
+    }
+
+    .bottom-card-icons a:nth-child(2) .bottom-icon:hover::before {
+        animation: rotateLight 3s linear infinite alternate !important;
+        background: conic-gradient(from 0deg,
+                transparent 0deg,
+                transparent 250deg,
+                rgba(100, 150, 255, 1) 270deg,
+                rgba(50, 100, 255, 1) 280deg,
+                rgba(100, 150, 255, 1) 290deg,
+                rgba(0, 80, 255, 1) 300deg,
+                rgba(100, 150, 255, 0.8) 310deg,
+                transparent 330deg,
+                transparent 360deg);
+    }
+
+    .bottom-card-icons a:nth-child(3) .bottom-icon:hover {
+        box-shadow:
+            0 10px 25px rgba(0, 0, 0, 0.5),
+            0 0 30px rgba(100, 255, 200, 0.9),
+            0 0 45px rgba(50, 255, 150, 0.7),
+            0 0 60px rgba(0, 255, 140, 0.5);
+    }
+
+    .bottom-card-icons a:nth-child(3) .bottom-icon:hover::before {
+        animation: rotateLight 3s linear infinite alternate !important;
+        background: conic-gradient(from 0deg,
+                transparent 0deg,
+                transparent 250deg,
+                rgba(100, 255, 200, 1) 270deg,
+                rgba(50, 255, 150, 1) 280deg,
+                rgba(100, 255, 200, 1) 290deg,
+                rgba(0, 255, 140, 1) 300deg,
+                rgba(100, 255, 200, 0.8) 310deg,
+                transparent 330deg,
+                transparent 360deg);
+    }
+
+    /* 📱 Responsive สำหรับหน้าจอมือถือ */
+    @media (max-width: 1024px) {
+        .bottom-section {
+            height: auto;
+            min-height: 150px;
+            gap: 15px;
+            flex-direction: column;
+        }
+
+        .bottom-card {
+            max-width: 100%;
+            padding: 15px 18px;
+        }
+
+        .bottom-card-image {
+            width: 65px;
+            height: 65px;
+        }
+
+        .bottom-card-title {
+            font-size: 16px;
+        }
+
+        .bottom-icon {
+            width: 32px;
+            height: 32px;
+            padding: 5px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .bottom-section {
+            height: auto;
+            min-height: 180px;
+            flex-direction: column;
+            gap: 12px;
+            padding: 10px;
+        }
+
+        .bottom-card {
+            padding: 12px 15px;
+            gap: 12px;
+        }
+
+        .bottom-card-image {
+            width: 55px;
+            height: 55px;
+        }
+
+        .bottom-card-title {
+            font-size: 15px;
+        }
+
+        .bottom-card-icons {
+            gap: 8px;
+        }
+
+        .bottom-icon {
+            width: 30px;
+            height: 30px;
+            padding: 5px;
+        }
+    }
+</style>
+
+<!-- ✨✨✨ ส่วนล่าง - ดึงข้อมูล Caster จาก Database ✨✨✨ -->
+<div class="bottom-section">
+    {% for caster in casters %}
+    <!-- การ์ด Caster -->
+    <div class="bottom-card">
+        <!-- รูปภาพโปรไฟล์ -->
+        <img src="{{ caster.image_url|default:'https://ui-avatars.com/api/?name='|add:caster.name|add:'&size=150&background=667eea&color=fff' }}"
+            alt="{{ caster.name }}" class="bottom-card-image"
+            onerror="this.src='https://ui-avatars.com/api/?name=User&size=150&background=cccccc&color=333';">
+
+        <div class="bottom-card-info">
+            <!-- ชื่อ Caster -->
+            <div class="bottom-card-title">{{ caster.name }}</div>
+
+            <!-- Jobs - แสดงเป็น Badge แยกกัน -->
+            {% if caster.jobs.exists %}
+            <div class="caster-jobs-info">
+                {% for job in caster.jobs.all %}
+                <div class="caster-job-item">
+                    {{ job.name }}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="caster-jobs-info">
+                <div class="caster-job-item">
+                    ไม่ระบุ
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- ไอคอนโซเชียล -->
+            <div class="bottom-card-icons">
+                {% if caster.instagram_url %}
+                <a href="{{ caster.instagram_url }}" target="_blank">
+                    <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram"
+                        class="bottom-icon">
+                </a>
+                {% endif %}
+
+                {% if caster.facebook_url %}
+                <a href="{{ caster.facebook_url }}" target="_blank">
+                    <img src="https://cdn.simpleicons.org/facebook/1877F2" alt="Facebook"
+                        class="bottom-icon">
+                </a>
+                {% endif %}
+
+                {% if caster.tiktok_url %}
+                <a href="{{ caster.tiktok_url }}" target="_blank">
+                    <img src="https://cdn.simpleicons.org/tiktok/000000" alt="TikTok" class="bottom-icon">
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <!-- แสดงเมื่อไม่มีข้อมูล Caster -->
+    <div style="color: white; text-align: center; padding: 20px;">
+        ไม่มีข้อมูล Caster ในขณะนี้
+    </div>
+    {% endfor %}
+</div>
