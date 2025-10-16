@@ -47,65 +47,32 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            padding: 0 15px;
+            padding: 100px 15px;
             overflow-y: auto;
             overflow-x: hidden;
             height: 550px;
             max-height: 550px;
             scrollbar-width: thin;
             scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
-            -webkit-mask-image: linear-gradient(
-                to bottom,
-                transparent 0%,
-                black 100px,
-                black calc(100% - 100px),
-                transparent 100%
-            );
-            mask-image: linear-gradient(
-                to bottom,
-                transparent 0%,
-                black 100px,
-                black calc(100% - 100px),
-                transparent 100%
-            );
             margin: auto;
             position: relative;
-        }
+            width: 100%;
 
-        /* Fade overlay บน */
-        .fade-top {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 150px;
-            background: linear-gradient(to bottom, 
-                #1a1a2e 0%,
-                #1a1a2e 20%,
-                rgba(26, 26, 46, 0.95) 40%,
-                rgba(26, 26, 46, 0.7) 60%,
-                rgba(26, 26, 46, 0.3) 80%,
-                transparent 100%);
-            pointer-events: none;
-            z-index: 10;
-        }
+            /* Mask image สำหรับ fade */
+            -webkit-mask-image: linear-gradient(to bottom,
+                    transparent 0%,
+                    black 80px,
+                    black calc(100% - 80px),
+                    transparent 100%);
+            mask-image: linear-gradient(to bottom,
+                    transparent 0%,
+                    black 80px,
+                    black calc(100% - 80px),
+                    transparent 100%);
 
-        /* Fade overlay ล่าง */
-        .fade-bottom {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 150px;
-            background: linear-gradient(to top, 
-                #1a1a2e 0%,
-                #1a1a2e 20%,
-                rgba(26, 26, 46, 0.95) 40%,
-                rgba(26, 26, 46, 0.7) 60%,
-                rgba(26, 26, 46, 0.3) 80%,
-                transparent 100%);
-            pointer-events: none;
-            z-index: 10;
+            /* ✅ เพิ่มบรรทัดนี้เพื่อทำให้ scroll smooth */
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
         }
 
         /* 🎴 การ์ดนามบัตรแบบผืนผ้า */
@@ -165,6 +132,7 @@
             height: 90px;
             overflow: hidden;
             position: relative;
+            z-index: 1;
         }
 
         /* แสงเรืองเบาๆ เมื่อยังไม่ hover */
@@ -175,12 +143,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(
-                135deg,
-                rgba(100, 200, 255, 0.05) 0%,
-                transparent 50%,
-                rgba(150, 100, 255, 0.05) 100%
-            );
+            background: linear-gradient(135deg,
+                    rgba(100, 200, 255, 0.05) 0%,
+                    transparent 50%,
+                    rgba(150, 100, 255, 0.05) 100%);
             opacity: 0;
             transition: opacity 0.4s ease;
             pointer-events: none;
@@ -191,7 +157,7 @@
             background: rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.4);
             transform: translateY(-5px) scale(1.03) !important;
-            box-shadow: 
+            box-shadow:
                 0 8px 30px rgba(0, 0, 0, 0.5),
                 0 0 40px rgba(100, 200, 255, 0.5),
                 0 0 60px rgba(150, 100, 255, 0.4),
@@ -258,24 +224,31 @@
             overflow: hidden;
             text-overflow: ellipsis;
             transition: all 0.3s ease;
+            margin-bottom: 4px;
         }
 
         .business-card.video-card:hover .video-channel {
             color: rgba(255, 255, 255, 0.9);
         }
 
+        /* Meta Info Container (Platform + Types) */
+        .video-meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+            align-items: center;
+        }
+
         /* Platform tag สวยงาม */
         .video-platform {
             font-size: 10px;
             color: rgba(255, 255, 255, 0.7);
-            background: linear-gradient(
-                135deg,
-                rgba(100, 200, 255, 0.2) 0%,
-                rgba(150, 100, 255, 0.2) 100%
-            );
+            background: linear-gradient(135deg,
+                    rgba(100, 200, 255, 0.2) 0%,
+                    rgba(150, 100, 255, 0.2) 100%);
             padding: 3px 8px;
             border-radius: 10px;
-            margin-top: 4px;
             display: inline-block;
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
@@ -287,16 +260,42 @@
         }
 
         .business-card.video-card:hover .video-platform {
-            background: linear-gradient(
-                135deg,
-                rgba(100, 200, 255, 0.4) 0%,
-                rgba(150, 100, 255, 0.4) 100%
-            );
+            background: linear-gradient(135deg,
+                    rgba(100, 200, 255, 0.4) 0%,
+                    rgba(150, 100, 255, 0.4) 100%);
             border-color: rgba(255, 255, 255, 0.4);
             color: rgba(255, 255, 255, 1);
-            box-shadow: 
+            box-shadow:
                 0 0 10px rgba(100, 200, 255, 0.5),
                 0 0 20px rgba(150, 100, 255, 0.3);
+        }
+
+        /* Type Badge Styling */
+        .video-type-item {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.75);
+            background: linear-gradient(135deg,
+                    rgba(255, 150, 100, 0.2) 0%,
+                    rgba(255, 100, 150, 0.2) 100%);
+            padding: 2px 7px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(3px);
+            white-space: nowrap;
+            line-height: 1.4;
+            display: inline-block;
+        }
+
+        .business-card.video-card:hover .video-type-item {
+            background: linear-gradient(135deg,
+                    rgba(255, 150, 100, 0.35) 0%,
+                    rgba(255, 100, 150, 0.35) 100%);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.95);
+            box-shadow:
+                0 0 8px rgba(255, 150, 100, 0.4),
+                0 0 15px rgba(255, 100, 150, 0.3);
         }
 
         /* Play icon overlay สำหรับวิดีโอ */
@@ -327,7 +326,7 @@
             opacity: 1;
             transform: translate(-50%, -50%) scale(1.2);
             background: rgba(0, 0, 0, 0.85);
-            box-shadow: 
+            box-shadow:
                 0 0 20px rgba(0, 0, 0, 0.5),
                 0 0 30px rgba(100, 200, 255, 0.6),
                 0 0 40px rgba(150, 100, 255, 0.4);
@@ -366,9 +365,31 @@
 
         @media (max-width: 640px) {
             .video-list-container {
-                padding: 0 12px;
+                padding: 80px 12px;
                 height: 350px;
                 max-height: 350px;
+            }
+
+            .video-info {
+                padding: 8px 12px;
+            }
+
+            .video-title {
+                font-size: 12px;
+            }
+
+            .video-channel {
+                font-size: 10px;
+            }
+
+            .video-platform,
+            .video-type-item {
+                font-size: 8px;
+                padding: 2px 6px;
+            }
+
+            .video-meta-info {
+                gap: 4px;
             }
         }
     </style>
@@ -381,51 +402,33 @@
         <!-- Fade overlays -->
         <div class="fade-top"></div>
         <div class="fade-bottom"></div>
-        
+
+        <!-- Video List Container - แสดงแค่ 5 รายการชัดเจน + 2 ส่วนเลือน -->
         <div class="video-list-container">
             {% for video in videos %}
-            <div class="business-card video-card" data-video-url="{{ video.song_url }}">
-                <!-- Play Icon -->
-                <div class="video-play-icon">▶</div>
-                
-                <!-- รูปภาพ Thumbnail -->
+            <!-- การ์ดวิดีโอ -->
+            <a href="{{ video.url }}" target="_blank" class="business-card video-card">
                 <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}" class="video-thumbnail">
-                
-                <!-- ข้อมูลวิดีโอ -->
                 <div class="video-info">
-                    <!-- ชื่อเพลง/วิดีโอ -->
-                    <div class="video-title">
-                        {{ video.title }}
-                    </div>
-                    
-                    <!-- ชื่อศิลปิน/ช่อง -->
-                    <div class="video-channel">
-                        {{ video.artist }}
-                    </div>
-                    
+                    <div class="video-title">{{ video.title }}</div>
+                    <div class="video-channel">{{ video.artist }}</div>
+
                     <!-- แพลตฟอร์มและประเภท -->
                     <div class="video-meta-info">
-                        <!-- Platform -->
-                        <div class="video-platform">
-                            {{ video.platform }}
-                        </div>
-                        
+                        <div class="video-platform">{{ video.platform }}</div>
+
                         <!-- Types - แต่ละ type แยก badge -->
                         {% for type in video.types.all %}
-                        <div class="video-type-item">
-                            {{ type.name }}
-                        </div>
+                        <div class="video-type-item">{{ type.name }}</div>
                         {% empty %}
-                        <div class="video-type-item">
-                            ไม่ระบุ
-                        </div>
+                        <div class="video-type-item">ไม่ระบุ</div>
                         {% endfor %}
                     </div>
                 </div>
-            </div>
+            </a>
             {% empty %}
             <!-- กรณีไม่มีข้อมูล -->
-            <div style="color: white; text-align: center; padding: 20px;">
+            <div style="color: rgba(255, 255, 255, 0.6); text-align: center; padding: 40px 20px; font-size: 14px;">
                 ไม่มีวิดีโอในขณะนี้
             </div>
             {% endfor %}
