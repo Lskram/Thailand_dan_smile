@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Test Caster Images</title>
+    <style>
+        body {
+            background: #222;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .caster-test {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid white;
+            border-radius: 10px;
+        }
+        .caster-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+        }
+        .info {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Caster Images Debug Page</h1>
+
+    <p>Total Casters: {{ casters|length }}</p>
+
+    {% for caster in casters %}
+    <div class="caster-test">
+        <h2>{{ caster.name }}</h2>
+
+        <div class="info">
+            <strong>Image URL Length:</strong> {{ caster.image_url|length }} characters<br>
+            <strong>Image URL Preview:</strong> {{ caster.image_url|slice:":80" }}...<br>
+            <strong>Starts with 'data:image':</strong>
+            {% if caster.image_url|slice:":10" == "data:image" %}
+                ✅ Yes
+            {% else %}
+                ❌ No
+            {% endif %}
+        </div>
+
+        <div style="margin-top: 20px;">
+            <p><strong>Image Preview:</strong></p>
+            <img src="{{ caster.image_url|safe }}"
+                 alt="{{ caster.name }}"
+                 class="caster-image"
+                 onload="console.log('✅ Image loaded for {{ caster.name }}');"
+                 onerror="console.error('❌ Failed to load image for {{ caster.name }}'); this.style.border='3px solid red';">
+        </div>
+
+        <div style="margin-top: 10px;">
+            <strong>Jobs:</strong>
+            {% for job in caster.jobs.all %}
+                {{ job.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </div>
+
+        <div style="margin-top: 10px;">
+            <strong>Social Media:</strong><br>
+            {% if caster.instagram_url %}
+                Instagram: <a href="{{ caster.instagram_url }}" target="_blank" style="color: #E4405F;">{{ caster.instagram_url }}</a><br>
+            {% endif %}
+            {% if caster.facebook_url %}
+                Facebook: <a href="{{ caster.facebook_url }}" target="_blank" style="color: #1877F2;">{{ caster.facebook_url }}</a><br>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <p style="color: red;">❌ No casters found in database</p>
+    {% endfor %}
+
+    <hr>
+    <p><a href="/" style="color: white;">← Back to main page</a></p>
+</body>
+</html>

@@ -7,6 +7,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
 
+    <!-- 🎨 โหลดไฟล์ CSS สำหรับปรับค่า Layout -->
+    <link rel="stylesheet" href="{% static 'pages/css/layout-config.css' %}">
+
+    <!-- 🎯 โหลดไฟล์ CSS สำหรับปรับการจัดวางเนื้อหา -->
+    <link rel="stylesheet" href="{% static 'pages/css/content-alignment.css' %}">
+
+    <!-- ⭐ โหลดไฟล์ CSS สำหรับ Config ของ Components -->
+    <!-- กล่องซ้าย -->
+    <link rel="stylesheet" href="{% static 'pages/css/left-top-config.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/left-mid-config.css' %}"> <!-- ⭐ เพิ่ม -->
+    <link rel="stylesheet" href="{% static 'pages/css/left-low-config.css' %}">
+
+    <!-- กล่องกลาง -->
+    <link rel="stylesheet" href="{% static 'pages/css/middle-top-config.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/middle-config.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/mid-low-config.css' %}">
+
+    <!-- กล่องขวา -->
+    <link rel="stylesheet" href="{% static 'pages/css/right-top-config.css' %}"> <!-- ⭐ เพิ่ม -->
+    <link rel="stylesheet" href="{% static 'pages/css/right-mid-config.css' %}"> <!-- ⭐ เพิ่ม -->
+    <link rel="stylesheet" href="{% static 'pages/css/right-low-config.css' %}"> <!-- ⭐ เพิ่ม -->
+
     <style>
         * {
             margin: 0;
@@ -14,16 +36,20 @@
             box-sizing: border-box;
         }
 
+        html,
         body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
             background: #1a1a2e;
             color: white;
             font-family: Arial, sans-serif;
-            height: 100vh;
+        }
+
+        body {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
+            margin: 0;
+            padding: 0;
         }
 
         /* 🎥 วิดีโอพื้นหลัง */
@@ -48,227 +74,6 @@
             background: rgba(0, 0, 0, 0.3);
             z-index: -1;
         }
-
-        /* 📦 กล่องหลัก 3 คอลัมน์ */
-        .container {
-            display: grid;
-            grid-template-columns: 1fr 2fr 1fr;
-            gap: 20px;
-            width: 98%;
-            height: 90vh;
-            max-width: 2200px;
-        }
-
-        /* 🟦 กล่องซ้าย */
-        .left {
-            background: none;
-            border: 2px solid white;
-            border-radius: 15px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 85%;
-            height: 75%;
-            margin: auto;
-        }
-
-        /* 🟩 กล่องกลาง - แบ่งเป็น 3 ส่วน (บน กลาง ล่าง) */
-        .center {
-            display: flex;
-            flex-direction: column;
-            gap: 35px;
-            height: 100%;
-        }
-
-        /* 🎵 ปุ่มควบคุมเสียงเพลง */
-        .music-controls {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 15px 20px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            transition: all 0.5s ease;
-            max-width: 300px;
-            overflow: hidden;
-            opacity: 1;
-        }
-
-        .music-controls.collapsed {
-            max-width: 60px;
-            padding: 15px;
-            opacity: 0.2;
-            background: rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .music-controls.collapsed .volume-slider,
-        .music-controls.collapsed .volume-level {
-            opacity: 0;
-            width: 0;
-            pointer-events: none;
-        }
-
-        .music-controls:hover {
-            background: rgba(0, 0, 0, 0.85);
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-            opacity: 1 !important;
-            max-width: 300px !important;
-        }
-
-        /* ปุ่ม Mute/Unmute */
-        .mute-btn {
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            transition: all 0.3s;
-            padding: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .mute-btn:hover {
-            transform: scale(1.2);
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
-        }
-
-        /* Volume Slider */
-        .volume-slider {
-            width: 100px;
-            height: 6px;
-            -webkit-appearance: none;
-            appearance: none;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            outline: none;
-            transition: all 0.5s;
-        }
-
-        .volume-slider:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        /* Slider Thumb */
-        .volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            background: white;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            transition: all 0.3s;
-        }
-
-        .volume-slider::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-        }
-
-        .volume-slider::-moz-range-thumb {
-            width: 16px;
-            height: 16px;
-            background: white;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            border: none;
-            transition: all 0.3s;
-        }
-
-        .volume-slider::-moz-range-thumb:hover {
-            transform: scale(1.2);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-        }
-
-        /* Volume Level Indicator */
-        .volume-level {
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            min-width: 40px;
-            text-align: center;
-        }
-
-        /* 📱 Responsive สำหรับหน้าจอมือถือ */
-        @media (max-width: 1024px) {
-            .container {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto auto auto;
-                height: auto;
-                min-height: 100vh;
-                padding: 10px;
-                gap: 15px;
-            }
-
-            .left {
-                width: 100%;
-                height: 250px;
-                margin: 0;
-            }
-
-            .center {
-                gap: 15px;
-            }
-
-            .music-controls {
-                bottom: 25px;
-                left: 25px;
-            }
-        }
-
-        @media (max-width: 640px) {
-            body {
-                height: auto;
-            }
-
-            .container {
-                width: 100%;
-                padding: 5px;
-                gap: 10px;
-            }
-
-            .left {
-                height: 200px;
-            }
-
-            .music-controls {
-                bottom: 20px;
-                left: 20px;
-                padding: 12px 15px;
-                gap: 10px;
-            }
-
-            .music-controls.collapsed {
-                padding: 12px;
-            }
-
-            .volume-slider {
-                width: 60px;
-            }
-
-            .volume-level {
-                font-size: 12px;
-                min-width: 30px;
-            }
-
-            .mute-btn {
-                font-size: 20px;
-            }
-        }
     </style>
 </head>
 
@@ -279,16 +84,6 @@
         <source src="{% static 'pages/music/thailanddansmile_Music.MP3' %}" type="audio/mpeg">
     </audio>
 
-    <!-- 🎛️ ปุ่มควบคุมเสียง -->
-    <div class="music-controls">
-        <button class="mute-btn" id="muteBtn" onclick="toggleMute()">
-            🔊
-        </button>
-        <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider"
-            oninput="changeVolume(this.value)">
-        <span class="volume-level" id="volumeLevel">50%</span>
-    </div>
-
     <!-- 🎥 วิดีโอพื้นหลัง -->
     <video class="video-background" autoplay muted loop playsinline>
         <source src="{% static 'pages/videos/background.mp4' %}" type="video/mp4">
@@ -297,163 +92,415 @@
 
     <div class="container">
 
-        <!-- 🟦 กล่องซ้าย -->
+        <!-- 🟦 กล่องซ้าย - 3 ส่วนแนวตั้ง -->
         <div class="left">
-            <h2>กล่องซ้าย</h2>
+            <!-- ส่วนบน -->
+            <div class="left-section top">
+                {% include 'left_top.html' %}
+            </div>
+
+            <!-- ส่วนกลาง (คอมเมนท์ - มี scroll) -->
+            <div class="left-section mid">
+                {% include 'left_mid.html' %}
+            </div>
+
+            <!-- ส่วนล่าง (ควบคุมเสียง) -->
+            <div class="left-section low">
+                {% include 'left_low.html' %}
+            </div>
         </div>
 
-        <!-- 🟩 กล่องกลาง -->
+        <!-- 🟩 กล่องกลาง - 3 ส่วน -->
         <div class="center">
+            <!-- ส่วนบน -->
+            <div class="center-section top">
+                {% include 'middle_top.html' %}
+            </div>
 
-            <!-- ส่วนบน: 4 กล่อง - Import จาก middle_top.html -->
-            {% include 'middle_top.html' %}
+            <!-- ส่วนกลาง (YouTube - ใหญ่ที่สุด) -->
+            <div class="center-section main">
+                {% include 'middle.html' %}
+            </div>
 
-            <!-- ส่วนกลาง - Import จาก middle.html -->
-            {% include 'middle.html' %}
-
-            <!-- ส่วนล่าง - Import จาก mid-low.html -->
-            {% include 'mid-low.html' %}
-
+            <!-- ส่วนล่าง -->
+            <div class="center-section bottom">
+                {% include 'mid-low.html' %}
+            </div>
         </div>
 
-        <!-- 🟨 กล่องขวา - Video List - Import จาก right_Box.html -->
-        {% include 'right_Box.html' %}
+        <!-- 🟨 กล่องขวา - 3 ส่วนแนวตั้ง -->
+        <div class="right">
+            <!-- ส่วนบน -->
+            <div class="right-section top">
+                {% include 'right_Box-top.html' %}
+            </div>
+
+            <!-- ส่วนกลาง (รายการวิดีโอ - มี scroll) -->
+            <div class="right-section mid">
+                {% include 'right_Box.html' %}
+            </div>
+
+            <!-- ส่วนล่าง -->
+            <div class="right-section low">
+                {% include 'right_Box-low.html' %}
+            </div>
+        </div>
 
     </div>
 
+    <!-- Load YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
     <script>
-        const audio = document.getElementById('bgMusic');
-        const muteBtn = document.getElementById('muteBtn');
-        const volumeSlider = document.getElementById('volumeSlider');
-        const volumeLevel = document.getElementById('volumeLevel');
-        const musicControls = document.querySelector('.music-controls');
-        const youtubeIframe = document.getElementById('youtubeVideo');
-        let collapseTimeout;
+        // ========================================
+        // Global Variables
+        // ========================================
+        let player;
         let musicWasPausedByVideo = false;
+        let originalVolume = 0.5;
+        let volumeResumeTimeout;
 
-        // ตั้งค่าเริ่มต้น
+        const audio = document.getElementById('bgMusic');
+        const youtubeIframe = document.getElementById('youtubeVideo');
+
         audio.volume = 0.5;
+        originalVolume = 0.5;
 
-        // 🎬 ฟังก์ชันสำหรับแปลง URL เป็น YouTube Video ID
+        // ========================================
+        // YouTube API Ready - สร้าง Player
+        // ========================================
+        function onYouTubeIframeAPIReady() {
+            console.log('✅ YouTube IFrame API is ready, creating player...');
+            player = new YT.Player('youtubeVideo', {
+                height: '100%',
+                width: '100%',
+                videoId: 'cIJQrqAHpZI',
+                playerVars: {
+                    'rel': 0,
+                    'modestbranding': 1,
+                    'fs': 1,
+                    'enablejsapi': 1,
+                    'vq': 'hd1080',
+                    'hd': 1,
+                    'quality': 'highres'
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        // ========================================
+        // Player Ready - Setup Event Listeners
+        // ========================================
+        function onPlayerReady(event) {
+            console.log('✅ YouTube Player is ready');
+            setupVideoCardListeners();
+        }
+
+        // ========================================
+        // Setup Video Card Click Listeners (with Debug)
+        // ========================================
+        function setupVideoCardListeners() {
+            const videoCards = document.querySelectorAll('.video-card');
+            console.log('🔍 Setting up video card listeners, found:', videoCards.length, 'cards');
+
+            // แสดง URL ทั้งหมดที่พบ
+            videoCards.forEach((card, index) => {
+                const url = card.getAttribute('data-video-url');
+                console.log(`  Card ${index + 1}: ${url}`);
+            });
+
+            if (videoCards.length === 0) {
+                console.error('❌ ไม่พบ .video-card เลย! ตรวจสอบว่า right_Box.html โหลดแล้วหรือยัง');
+
+                // ลอง setup อีกครั้งหลัง 2 วินาที
+                setTimeout(() => {
+                    console.log('🔄 พยายาม setup video cards อีกครั้ง...');
+                    setupVideoCardListeners();
+                }, 2000);
+                return;
+            }
+
+            videoCards.forEach((card, index) => {
+                card.style.cursor = 'pointer';
+
+                card.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    console.log('='.repeat(50));
+                    console.log('🎬 คลิกการ์ดที่:', index + 1);
+                    console.log('📋 Title:', this.getAttribute('data-title'));
+
+                    // ลองดึง URL ก่อน
+                    let videoUrl = this.getAttribute('data-video-url') || this.dataset.videoUrl || '';
+                    console.log('📎 Video URL:', videoUrl);
+
+                    // ถ้าไม่มี URL ลองดึง Video ID โดยตรง
+                    let videoId = null;
+
+                    if (videoUrl && videoUrl.trim() !== '') {
+                        videoId = getYouTubeVideoId(videoUrl);
+                        console.log('📹 Video ID (from URL):', videoId);
+                    } else {
+                        // ลอง fallback ไปที่ data-video-id
+                        videoId = this.getAttribute('data-video-id') || this.dataset.videoId || '';
+                        console.log('📹 Video ID (direct):', videoId);
+                    }
+
+                    if (!videoId || videoId.trim() === '') {
+                        console.error('❌ ไม่พบ Video ID');
+                        console.error('   URL:', videoUrl);
+                        console.error('   Video ID:', videoId);
+                        alert('❌ ไม่พบ Video ID\n\nURL: ' + videoUrl + '\nVideo ID: ' + videoId);
+                        return;
+                    }
+
+                    console.log('🎮 Player:', player);
+                    console.log('🔧 Player.loadVideoById:', player ? player.loadVideoById : 'undefined');
+
+                    if (player && player.loadVideoById) {
+                        console.log('✅ กำลังโหลดวิดีโอ:', videoId);
+
+                        try {
+                            player.loadVideoById({
+                                videoId: videoId,
+                                startSeconds: 0
+                            });
+                            console.log('✅ โหลดวิดีโอสำเร็จ!');
+
+                            // เอฟเฟกต์ scale การ์ด
+                            this.style.transform = 'scale(0.95)';
+                            this.style.transition = 'transform 0.2s';
+                            setTimeout(() => {
+                                this.style.transform = '';
+                            }, 200);
+
+                            // Scroll ไปที่ YouTube Player
+                            const centerElement = document.querySelector('.center');
+                            if (centerElement) {
+                                console.log('📜 Scrolling to center...');
+                                centerElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            } else {
+                                console.warn('⚠️ ไม่พบ .center element');
+                            }
+                        } catch (error) {
+                            console.error('❌ Error loading video:', error);
+                            alert('❌ เกิดข้อผิดพลาด: ' + error.message);
+                        }
+                    } else {
+                        console.error('❌ YouTube Player ยังไม่พร้อม');
+                        console.error('   Player:', player);
+                        console.error('   loadVideoById:', player ? player.loadVideoById : 'undefined');
+                        alert('❌ YouTube Player ยังไม่พร้อม กรุณารอสักครู่...');
+                    }
+
+                    console.log('='.repeat(50));
+                });
+            });
+
+            console.log('✅ Setup video card listeners เสร็จสิ้น');
+        }
+
+        // ========================================
+        // Player State Change - ควบคุมเพลงพื้นหลัง
+        // ========================================
+        function onPlayerStateChange(event) {
+            const muteBtn = document.getElementById('muteBtn');
+            const volumeSlider = document.getElementById('volumeSlider');
+            const volumeLevel = document.getElementById('volumeLevel');
+
+            if (event.data === YT.PlayerState.ENDED) {
+                console.log('⏹️ Video ended, stopping at first frame');
+                player.seekTo(0);
+                player.pauseVideo();
+
+                console.log('⏳ Waiting 30 seconds before resuming background music...');
+                clearTimeout(volumeResumeTimeout);
+                volumeResumeTimeout = setTimeout(() => {
+                    console.log('🎵 Resuming background music after 30 seconds');
+                    audio.volume = originalVolume;
+                    if (volumeSlider) volumeSlider.value = originalVolume * 100;
+                    if (volumeLevel) volumeLevel.textContent = Math.round(originalVolume * 100) + '%';
+
+                    if (muteBtn) {
+                        if (originalVolume < 0.3) {
+                            muteBtn.textContent = '🔈';
+                        } else if (originalVolume < 0.7) {
+                            muteBtn.textContent = '🔉';
+                        } else {
+                            muteBtn.textContent = '🔊';
+                        }
+                    }
+
+                    musicWasPausedByVideo = false;
+                }, 30000);
+            }
+            else if (event.data === YT.PlayerState.PLAYING) {
+                console.log('▶️ Video is playing, setting background music volume to 0');
+
+                clearTimeout(volumeResumeTimeout);
+
+                if (audio.volume > 0) {
+                    originalVolume = audio.volume;
+                }
+
+                audio.volume = 0;
+                if (volumeSlider) volumeSlider.value = 0;
+                if (volumeLevel) volumeLevel.textContent = '0%';
+                if (muteBtn) muteBtn.textContent = '🔇';
+                musicWasPausedByVideo = true;
+            }
+            else if (event.data === YT.PlayerState.PAUSED) {
+                console.log('⏸️ Video paused, waiting 30 seconds before resuming background music...');
+
+                clearTimeout(volumeResumeTimeout);
+                volumeResumeTimeout = setTimeout(() => {
+                    console.log('🎵 Resuming background music after 30 seconds of pause');
+                    audio.volume = originalVolume;
+                    if (volumeSlider) volumeSlider.value = originalVolume * 100;
+                    if (volumeLevel) volumeLevel.textContent = Math.round(originalVolume * 100) + '%';
+
+                    if (muteBtn) {
+                        if (originalVolume < 0.3) {
+                            muteBtn.textContent = '🔈';
+                        } else if (originalVolume < 0.7) {
+                            muteBtn.textContent = '🔉';
+                        } else {
+                            muteBtn.textContent = '🔊';
+                        }
+                    }
+
+                    musicWasPausedByVideo = false;
+                }, 30000);
+            }
+        }
+
+        // ========================================
+        // Extract YouTube Video ID from URL
+        // ========================================
         function getYouTubeVideoId(url) {
-            // รองรับหลายรูปแบบ URL
+            console.log('🔍 กำลังแยก Video ID จาก:', url);
+
             const patterns = [
                 /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\?\/]+)/,
-                /^([a-zA-Z0-9_-]{11})$/ // รองรับ video ID โดยตรง
+                /^([a-zA-Z0-9_-]{11})$/
             ];
 
             for (let pattern of patterns) {
                 const match = url.match(pattern);
                 if (match && match[1]) {
+                    console.log('✅ พบ Video ID:', match[1]);
                     return match[1];
                 }
             }
+
+            console.error('❌ ไม่พบ Video ID ใน URL:', url);
             return null;
         }
 
-        // 🎬 เมื่อคลิกที่การ์ดวิดีโอ ให้เปลี่ยนวิดีโอที่กล่องกลาง
-        document.querySelectorAll('.video-card').forEach(card => {
-            card.addEventListener('click', function (e) {
-                e.preventDefault(); // ป้องกันการเปิดลิงก์ใหม่
-
-                const videoUrl = this.getAttribute('href');
-                const videoId = getYouTubeVideoId(videoUrl);
-
-                if (videoId) {
-                    // เปลี่ยน src ของ iframe
-                    youtubeIframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&vq=hd1080&hd=1&autoplay=1`;
-
-                    // หยุดเพลงชั่วคราว
-                    if (!audio.paused) {
-                        audio.pause();
-                        musicWasPausedByVideo = true;
-                    }
-
-                    // เพิ่มเอฟเฟกต์ visual feedback
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                    }, 200);
-                } else {
-                    console.error('ไม่สามารถดึง YouTube Video ID จาก URL:', videoUrl);
-                }
-            });
-        });
-
-        // ตรวจจับเมื่อผู้ใช้คลิกที่วิดีโอ YouTube
-        youtubeIframe.addEventListener('load', function () {
-            document.querySelector('.middle-section').addEventListener('click', function () {
-                if (!audio.paused) {
-                    audio.pause();
-                    musicWasPausedByVideo = true;
-                }
-            });
-        });
-
-        function collapseControls() {
-            musicControls.classList.add('collapsed');
-        }
-
-        function expandControls() {
-            musicControls.classList.remove('collapsed');
-            resetCollapseTimer();
-        }
-
-        function resetCollapseTimer() {
-            clearTimeout(collapseTimeout);
-            collapseTimeout = setTimeout(collapseControls, 2000);
-        }
-
-        function toggleMute() {
-            if (audio.muted) {
-                audio.muted = false;
-                muteBtn.textContent = '🔊';
-            } else {
-                audio.muted = true;
-                muteBtn.textContent = '🔇';
-            }
-            resetCollapseTimer();
-        }
-
-        function changeVolume(value) {
-            audio.volume = value / 100;
-            volumeLevel.textContent = value + '%';
-
-            if (value == 0) {
-                muteBtn.textContent = '🔇';
-                audio.muted = true;
-            } else {
-                audio.muted = false;
-                if (value < 30) {
-                    muteBtn.textContent = '🔈';
-                } else if (value < 70) {
-                    muteBtn.textContent = '🔉';
-                } else {
-                    muteBtn.textContent = '🔊';
-                }
-            }
-            resetCollapseTimer();
-        }
-
-        musicControls.addEventListener('mouseenter', expandControls);
-        musicControls.addEventListener('mouseleave', resetCollapseTimer);
-        musicControls.addEventListener('click', expandControls);
-        volumeSlider.addEventListener('input', function () {
-            changeVolume(this.value);
-        });
-
+        // ========================================
+        // Auto-play Background Music
+        // ========================================
         document.addEventListener('click', function () {
             if (audio.paused && !musicWasPausedByVideo) {
                 audio.play().catch(e => console.log('Auto-play prevented:', e));
             }
         }, { once: true });
 
+        // ========================================
+        // Window Load Event
+        // ========================================
         window.addEventListener('load', function () {
+            console.log('🌐 หน้าเว็บโหลดเสร็จแล้ว');
+
             audio.play().catch(e => {
                 console.log('Auto-play prevented. Click anywhere to start music.');
             });
-            resetCollapseTimer();
+
+            setTimeout(function () {
+                if (typeof YT !== 'undefined' && YT.Player && !player) {
+                    console.log('⚠️ YouTube API already loaded, initializing player manually...');
+                    onYouTubeIframeAPIReady();
+                } else if (!player) {
+                    console.log('⏳ Waiting for YouTube API...');
+                } else {
+                    console.log('✅ Player already initialized');
+                }
+            }, 500);
+
+            loadYouTubeComments('cIJQrqAHpZI');
         });
+
+        // ========================================
+        // Load YouTube Comments
+        // ========================================
+        async function loadYouTubeComments(videoId) {
+            const commentsList = document.querySelector('.comments-list');
+            const commentsCount = document.querySelector('.comments-count');
+
+            if (!commentsList) {
+                console.log('Comments list element not found');
+                return;
+            }
+
+            commentsList.innerHTML = '<div class="comments-loading">⏳ กำลังโหลดความคิดเห็น...</div>';
+
+            try {
+                const response = await fetch(`/api/youtube-comments/?video_id=${videoId}`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to load comments');
+                }
+
+                if (!data.success || !data.comments || data.comments.length === 0) {
+                    commentsList.innerHTML = '<div class="comments-loading">ไม่พบความคิดเห็น</div>';
+                    return;
+                }
+
+                if (commentsCount) {
+                    commentsCount.textContent = `(${data.total_comments || data.comments.length})`;
+                }
+
+                const commentsHTML = data.comments.map((comment) => {
+                    return `
+                        <div class="comment-item">
+                            <div class="comment-header">
+                                <div class="comment-avatar">
+                                    <img src="${comment.author_profile_image}" alt="${comment.author}" loading="lazy">
+                                </div>
+                                <div class="comment-author-info">
+                                    <p class="comment-author">${comment.author}</p>
+                                    <span class="comment-time">${comment.time_ago}</span>
+                                </div>
+                            </div>
+                            <p class="comment-text">${comment.text}</p>
+                            <div class="comment-actions">
+                                <span class="comment-likes">👍 ${comment.likes}</span>
+                                <span>ตอบกลับ</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                commentsList.innerHTML = commentsHTML;
+                console.log('✅ Loaded', data.comments.length, 'comments from YouTube API');
+
+            } catch (error) {
+                console.error('❌ Error loading comments:', error);
+                commentsList.innerHTML = `
+                    <div class="comments-loading" style="color: rgba(255, 100, 100, 0.8);">
+                        ⚠️ ไม่สามารถโหลดความคิดเห็นได้<br>
+                        <small style="font-size: 12px; margin-top: 10px; display: block;">
+                            ${error.message || 'กรุณาตรวจสอบ YouTube API Key ใน settings.py'}
+                        </small>
+                    </div>
+                `;
+            }
+        }
     </script>
 
 </body>

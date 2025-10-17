@@ -1,139 +1,229 @@
 <style>
-    /* 📦 กล่อง 4 กล่องด้านบน */
+    /* 📦 กล่อง 5 กล่องด้านบน - แสดง 1 แถวเท่านั้น */
     .top-boxes {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 15px;
-        width: 70%;
-        height: 15%;
-        margin: 0 auto;
+        grid-template-columns: repeat(5, 1fr); /* ⭐ บังคับ 5 คอลัมน์ */
+        grid-template-rows: 1fr; /* ⭐ บังคับ 1 แถวเท่านั้น */
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
         align-items: center;
         justify-items: center;
+        overflow: visible;
+        position: relative;
+        box-sizing: border-box;
     }
 
     .top-box {
         background: transparent;
-        border: none;
+        border: 0;
         border-radius: 15px;
-        padding: 15px;
+        padding: 8px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 5px;
+        gap: 4px;
         transition: all 0.3s;
         width: 100%;
-        height: 85%;
+        height: 100%;
         text-decoration: none;
         color: white;
         position: relative;
+        overflow: visible;
+        box-sizing: border-box;
     }
 
     .top-box:hover {
         transform: translateY(-5px) scale(1.05);
+        background: rgba(255, 255, 255, 0.05);
     }
 
-    /* Tooltip กล่องข้อความ */
+    /* Focus state */
+    .top-box:focus {
+        outline: 3px solid rgba(100, 200, 255, 0.8);
+        outline-offset: 2px;
+    }
+
+    /* ⭐ Tooltip - แสดงด้านล่างใกล้ไอคอน */
     .top-box::after {
         content: attr(data-tooltip);
         position: absolute;
-        bottom: -35px;
+        bottom: -20px; /* ⭐ ลดลงจาก -30px เป็น -25px */
         left: 50%;
         transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.9);
+        background: rgba(0, 0, 0, 0.95);
         color: white;
-        padding: 8px 12px;
-        border-radius: 8px;
-        font-size: 12px;
+        padding: 5px 10px; /* ⭐ ลด padding */
+        border-radius: 6px; /* ⭐ ลดความโค้ง */
+        font-size: 10px; /* ⭐ ลดขนาดฟอนต์ */
+        font-weight: 600;
         white-space: nowrap;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.3s;
-        z-index: 10;
+        transition: all 0.3s ease;
+        z-index: 1000;
+        box-shadow: 
+            0 4px 12px rgba(0, 0, 0, 0.6),
+            0 0 10px rgba(100, 200, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        letter-spacing: 0.3px; /* ⭐ ลดลง */
     }
 
     .top-box:hover::after {
         opacity: 1;
+        bottom: -10px; /* ⭐ ปรับตาม (ห่างแค่ 10px จากตำแหน่งเริ่มต้น) */
     }
 
+    /* ⭐ ไอคอน/โลโก้ - ปรับขนาดให้พอดีกับพื้นที่ */
     .top-box img {
-        width: 50px;
-        height: 50px;
+        width: 100%; /* ⭐ ใช้ % แทน px */
+        height: auto; /* ⭐ ปรับอัตโนมัติ */
+        max-width: 45px; /* ⭐ จำกัดขนาดสูงสุด */
+        max-height: 45px; /* ⭐ จำกัดขนาดสูงสุด */
         object-fit: contain;
-        filter: brightness(0) invert(1) opacity(0.9) drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
         transition: all 0.3s;
+        image-rendering: optimizeQuality;
+        filter: brightness(0) invert(1) opacity(0.9) 
+                drop-shadow(0 0 6px rgba(255, 255, 255, 0.6)); /* ⭐ แสงเรือง */
     }
 
     .top-box:hover img {
-        filter: brightness(0) invert(1) opacity(1) drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 25px rgba(255, 255, 255, 0.6));
+        filter: brightness(0) invert(1) opacity(1) 
+                drop-shadow(0 0 12px rgba(255, 255, 255, 0.9)) 
+                drop-shadow(0 0 20px rgba(255, 255, 255, 0.6));
         transform: scale(1.15);
     }
 
-    /* สไตล์พิเศษสำหรับ Joox SVG */
+    /* ⭐ สไตล์พิเศษสำหรับ Joox SVG */
     .joox-icon {
-        width: 75px;
-        height: 75px;
-        filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+        width: 100%; /* ⭐ ใช้ % */
+        height: auto; /* ⭐ ปรับอัตโนมัติ */
+        max-width: 60px; /* ⭐ จำกัดขนาดสูงสุด */
+        max-height: 60px; /* ⭐ จำกัดขนาดสูงสุด */
+        filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6)); /* ⭐ แสงเรือง */
         transition: all 0.3s;
     }
 
     .top-box:hover .joox-icon {
-        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 25px rgba(255, 255, 255, 0.6));
+        filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.9)) 
+                drop-shadow(0 0 20px rgba(255, 255, 255, 0.6));
         transform: scale(1.15);
     }
 
     /* 📱 Responsive */
     @media (max-width: 1024px) {
         .top-boxes {
-            grid-template-columns: repeat(2, 1fr);
-            width: 100%;
-            height: auto;
+            grid-template-columns: repeat(3, 1fr); /* ⭐ 3 คอลัมน์ */
+            grid-template-rows: auto auto; /* ⭐ 2 แถว */
             gap: 10px;
         }
 
         .top-box {
-            height: 80px;
-            width: 100%;
+            padding: 6px;
+        }
+
+        .top-box img {
+            max-width: 40px;
+            max-height: 40px;
+        }
+
+        .joox-icon {
+            max-width: 55px;
+            max-height: 55px;
+        }
+
+        .top-box::after {
+            font-size: 10px;
+            padding: 3px 8px;
         }
     }
 
     @media (max-width: 640px) {
         .top-boxes {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr); /* ⭐ 2 คอลัมน์ */
+            grid-template-rows: auto auto auto; /* ⭐ 3 แถว */
             gap: 8px;
         }
 
         .top-box {
-            height: 70px;
+            padding: 5px;
         }
 
-        .top-box h3 {
-            font-size: 14px;
+        .top-box img {
+            max-width: 35px;
+            max-height: 35px;
+        }
+
+        .joox-icon {
+            max-width: 45px;
+            max-height: 45px;
+        }
+
+        .top-box::after {
+            font-size: 9px;
+            padding: 2px 6px;
+        }
+    }
+
+    /* ปิด effects ถ้าต้องการ */
+    @media (prefers-reduced-motion: reduce) {
+        .top-box,
+        .top-box img,
+        .joox-icon {
+            transition: none;
+            animation: none;
         }
     }
 </style>
 
-<!-- ส่วนบน: 4 กล่อง -->
+<!-- ⭐ เก็บไว้เฉพาะ 1 ชุดนี้เท่านั้น -->
 <div class="top-boxes">
-    <a href="https://open.spotify.com/track/6xeieYI4KgZDT9emCrN19h?si=51fc28ae3ca64d3d" target="_blank"
-        class="top-box" data-tooltip="Spotify">
+    <a href="https://open.spotify.com/track/6xeieYI4KgZDT9emCrN19h?si=51fc28ae3ca64d3d" 
+       target="_blank"
+       class="top-box" 
+       data-tooltip="Spotify"
+       aria-label="ฟังบน Spotify">
         <img src="https://cdn.simpleicons.org/spotify/1DB954" alt="Spotify">
     </a>
-    <a href="https://music.apple.com/th/song/thailand-dan-smile-feat-brownzer/1831206346" target="_blank"
-        class="top-box" data-tooltip="Apple Music">
+    
+    <a href="https://music.apple.com/th/song/thailand-dan-smile-feat-brownzer/1831206346" 
+       target="_blank"
+       class="top-box" 
+       data-tooltip="Apple Music"
+       aria-label="ฟังบน Apple Music">
         <img src="https://cdn.simpleicons.org/applemusic/FA243C" alt="Apple Music">
     </a>
-    <a href="https://tidal.com/track/452247935/u" target="_blank" class="top-box" data-tooltip="Tidal">
+    
+    <a href="https://tidal.com/track/452247935/u" 
+       target="_blank" 
+       class="top-box" 
+       data-tooltip="Tidal"
+       aria-label="ฟังบน Tidal">
         <img src="https://cdn.simpleicons.org/tidal/000000" alt="Tidal">
     </a>
-    <a href="https://www.joox.com/th/single/7ThmtErZRRwtvLth_+AOxg==" target="_blank" class="top-box"
-        data-tooltip="Joox">
-        <svg class="joox-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    
+    <a href="https://www.joox.com/th/single/7ThmtErZRRwtvLth_+AOxg==" 
+       target="_blank" 
+       class="top-box"
+       data-tooltip="Joox"
+       aria-label="ฟังบน Joox">
+        <svg class="joox-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path
                 d="M 35 15 L 55 15 L 55 60 Q 55 80 35 80 Q 15 80 15 60 L 25 60 Q 25 70 35 70 Q 45 70 45 60 L 45 25 L 35 25 Z"
                 fill="white" opacity="0.9" />
             <rect x="58" y="25" width="4" height="25" fill="white" opacity="0.6" rx="2" />
             <rect x="65" y="30" width="4" height="15" fill="white" opacity="0.4" rx="2" />
         </svg>
+    </a>
+    
+    <a href="https://youtu.be/3ThyF7iBM84" 
+       target="_blank" 
+       class="top-box" 
+       data-tooltip="YouTube Music"
+       aria-label="ฟังบน YouTube Music">
+        <img src="https://cdn.simpleicons.org/youtubemusic/FF0000" alt="YouTube Music">
     </a>
 </div>

@@ -1,0 +1,228 @@
+/**
+ * ========================================
+ * Middle (YouTube Player) Configuration CSS
+ * ========================================
+ * ไฟล์นี้ใช้สำหรับปรับแต่ง YouTube Player ใน middle.html
+ * เปลี่ยนค่าตัวเลขตามต้องการได้ง่ายๆ
+ * ========================================
+ */
+
+:root {
+    /* ========================================
+     * 🔥 ปรับค่าเหล่านี้ก่อน - สำคัญที่สุด!
+     * ======================================== */
+    
+    /* 📐 ขนาด YouTube Player */
+    --youtube-section-height: 100%;            /* ⭐ ความสูง (100% = เต็มพื้นที่) */
+    --youtube-section-border-radius: 15px;     /* ⭐ ความโค้งมุม */
+    
+    /* 🎨 เอฟเฟกต์แสงเรือง (เปิด/ปิดที่นี่) */
+    --enable-glow-effects: true;               /* ⭐ true = เปิด, false = ปิด */
+    --enable-hover-scale: true;                /* ⭐ ขยายเมื่อ hover */
+
+
+    /* ========================================
+     * 📐 Container Dimensions
+     * ======================================== */
+    
+    /* Main Container */
+    --youtube-section-padding: 0;
+    --youtube-section-border-width: 0;
+    
+    /* Video Container */
+    --youtube-video-width: 100%;
+    --youtube-video-height: 100%;
+    
+    /* Iframe */
+    --youtube-iframe-border-radius: 15px;
+
+
+    /* ========================================
+     * 🎨 Colors & Effects - สีและเอฟเฟกต์แสงเรือง
+     * ======================================== */
+    
+    /* Background */
+    --youtube-section-bg: transparent;
+    --youtube-section-border-color: transparent;
+    
+    /* Glow Effects - หลายชั้น (สีน้ำเงิน-ม่วง-ชมพู) */
+    --glow-color-1: rgba(100, 200, 255, 0.4);
+    --glow-color-2: rgba(150, 100, 255, 0.3);
+    --glow-color-3: rgba(255, 100, 200, 0.2);
+    
+    /* Glow Effects - Hover (เข้มขึ้น) */
+    --glow-color-1-hover: rgba(100, 200, 255, 0.6);
+    --glow-color-2-hover: rgba(150, 100, 255, 0.5);
+    --glow-color-3-hover: rgba(255, 100, 200, 0.4);
+    --glow-color-4-hover: rgba(100, 255, 150, 0.3);
+    
+    /* Drop Shadow Effect - สถานะปกติ */
+    --youtube-drop-shadow-default: 
+        drop-shadow(0 0 20px var(--glow-color-1))
+        drop-shadow(0 0 30px var(--glow-color-2))
+        drop-shadow(0 0 40px var(--glow-color-3));
+    
+    /* Drop Shadow Effect - เมื่อ Hover */
+    --youtube-drop-shadow-hover:
+        drop-shadow(0 0 30px var(--glow-color-1-hover))
+        drop-shadow(0 0 45px var(--glow-color-2-hover))
+        drop-shadow(0 0 60px var(--glow-color-3-hover))
+        drop-shadow(0 0 80px var(--glow-color-4-hover));
+
+
+    /* ========================================
+     * ⚡ Animation & Transitions - เอฟเฟกต์
+     * ======================================== */
+    
+    /* Transition Speed */
+    --youtube-section-transition: all 0.3s ease;
+    
+    /* Hover Effects */
+    --youtube-scale-hover: 1.02;               /* ⭐ ขยาย 2% เมื่อ hover */
+
+
+    /* ========================================
+     * 📱 Responsive Breakpoints
+     * ======================================== */
+    
+    /* Tablet (max-width: 1024px) */
+    --youtube-section-height-tablet: 300px;
+    --youtube-section-border-radius-tablet: 12px;
+    --youtube-iframe-border-radius-tablet: 12px;
+    
+    /* Glow Effects - Tablet (ลดลง) */
+    --glow-color-1-tablet: rgba(100, 200, 255, 0.3);
+    --glow-color-2-tablet: rgba(150, 100, 255, 0.2);
+    --glow-color-3-tablet: rgba(255, 100, 200, 0.15);
+    
+    /* Mobile (max-width: 640px) */
+    --youtube-section-height-mobile: 250px;
+    --youtube-section-border-radius-mobile: 10px;
+    --youtube-iframe-border-radius-mobile: 10px;
+    
+    /* Glow Effects - Mobile (ลดลงมากกว่า) */
+    --glow-color-1-mobile: rgba(100, 200, 255, 0.2);
+    --glow-color-2-mobile: rgba(150, 100, 255, 0.15);
+    --glow-color-3-mobile: rgba(255, 100, 200, 0.1);
+
+
+    /* ========================================
+     * 🎯 YouTube Player Settings (JavaScript)
+     * ======================================== */
+    
+    /* Video Quality */
+    --youtube-default-quality: hd1080;         /* hd1080 | hd720 | large | medium */
+    
+    /* Player Controls */
+    --youtube-autoplay: 0;                     /* 0 = ปิด, 1 = เปิด */
+    --youtube-controls: 1;                     /* 0 = ซ่อน, 1 = แสดง */
+    --youtube-modestbranding: 1;               /* ซ่อนโลโก้ YouTube บางส่วน */
+    --youtube-rel: 0;                          /* แสดงวิดีโอที่เกี่ยวข้องจากช่องเดียวกัน */
+    --youtube-fs: 1;                           /* เปิดปุ่ม fullscreen */
+    
+    /* Accessibility */
+    --focus-outline-width: 3px;
+    --focus-outline-color: rgba(100, 200, 255, 0.8);
+    --focus-outline-offset: 3px;
+}
+
+
+/* ========================================
+ * 🎨 ตัวอย่างการปรับแต่ง - คัดลอกไปใช้เลย!
+ * ========================================
+ * 
+ * 💡 ให้ player สูงขึ้น:
+ * --youtube-section-height: 80%;
+ * 
+ * 💡 ปิดเอฟเฟกต์แสงเรือง:
+ * --enable-glow-effects: false;
+ * --youtube-drop-shadow-default: none;
+ * --youtube-drop-shadow-hover: none;
+ * 
+ * 💡 ปิด hover scale:
+ * --enable-hover-scale: false;
+ * --youtube-scale-hover: 1;
+ * 
+ * 💡 เปลี่ยนสีแสงเรือง (แดง-ส้ม-เหลือง):
+ * --glow-color-1: rgba(255, 100, 100, 0.4);
+ * --glow-color-2: rgba(255, 150, 50, 0.3);
+ * --glow-color-3: rgba(255, 200, 100, 0.2);
+ * 
+ * 💡 มุมมนมากขึ้น:
+ * --youtube-section-border-radius: 25px;
+ * --youtube-iframe-border-radius: 25px;
+ * 
+ * 💡 แสงเรืองแรงขึ้น:
+ * --glow-color-1-hover: rgba(100, 200, 255, 0.9);
+ * --glow-color-2-hover: rgba(150, 100, 255, 0.8);
+ * --glow-color-3-hover: rgba(255, 100, 200, 0.7);
+ * 
+ * 💡 ให้ player เต็มพื้นที่:
+ * --youtube-section-height: 100%;
+ * 
+ * 💡 เปลี่ยนสีแสงเรือง (เขียว-ฟ้า):
+ * --glow-color-1: rgba(100, 255, 150, 0.4);
+ * --glow-color-2: rgba(100, 200, 255, 0.3);
+ * --glow-color-3: rgba(100, 150, 255, 0.2);
+ * 
+ * ========================================
+ */
+
+
+/* ========================================
+ * 📝 Documentation
+ * ========================================
+ * 
+ * 🔧 วิธีใช้:
+ * 1. แก้ไขค่าใน :root { } ด้านบนตามต้องการ
+ * 2. Save ไฟล์
+ * 3. Refresh หน้าเว็บ (Ctrl+F5)
+ * 
+ * ⚠️ เริ่มปรับจากค่าเหล่านี้ก่อน:
+ * - --youtube-section-height (ความสูง player)
+ * - --youtube-section-border-radius (ความโค้งมุม)
+ * - --enable-glow-effects (เปิด/ปิดแสงเรือง)
+ * - --youtube-scale-hover (ขยายเมื่อ hover)
+ * 
+ * 🎯 Best Practices:
+ * - YouTube aspect ratio มาตรฐานคือ 16:9
+ * - ใช้ HD quality เมื่อเป็นไปได้
+ * - ทดสอบบนหน้าจอขนาดต่างๆ
+ * - ตรวจสอบ performance บนมือถือ
+ * 
+ * 📊 Performance Tips:
+ * - ปิด glow effects บนอุปกรณ์ช้า
+ * - ลด drop-shadow layers ถ้าจำเป็น
+ * - ใช้ will-change: transform สำหรับ hover
+ * - Glow effects ใช้ CSS filter (อาจหนัก)
+ * 
+ * 🎬 YouTube API Integration:
+ * - onYouTubeIframeAPIReady() - เริ่ม player
+ * - onPlayerReady() - player พร้อมใช้งาน
+ * - onPlayerStateChange() - ตรวจจับสถานะ
+ * - loadVideoById() - เปลี่ยนวิดีโอ
+ * 
+ * 🎨 สีแสงเรืองแนะนำ:
+ * - น้ำเงิน: rgba(100, 200, 255, x)
+ * - ม่วง: rgba(150, 100, 255, x)
+ * - ชมพู: rgba(255, 100, 200, x)
+ * - เขียว: rgba(100, 255, 150, x)
+ * - แดง: rgba(255, 100, 100, x)
+ * - ส้ม: rgba(255, 150, 50, x)
+ * - เหลือง: rgba(255, 200, 100, x)
+ * - ฟ้า: rgba(100, 150, 255, x)
+ * 
+ * 📐 Responsive Design:
+ * - Desktop: ใช้ % height (responsive)
+ * - Tablet: fixed height 300px
+ * - Mobile: fixed height 250px
+ * - Glow effects ลดลงตาม screen size
+ * 
+ * ⚠️ Important Notes:
+ * - YouTube iframe ต้อง load ผ่าน API
+ * - ไม่สามารถควบคุม YouTube UI ได้ทั้งหมด
+ * - Drop shadow อาจทำให้ช้าบน low-end devices
+ * - ใช้ backdrop-filter ระวัง browser compatibility
+ * 
+ * ========================================
+ */

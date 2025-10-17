@@ -1,0 +1,284 @@
+{% load static %}
+
+<style>
+    /* ⚠️ Override parent styles - ใช้ค่าจาก content-alignment.css */
+    .left-section.low {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: var(--left-low-justify, center) !important;  /* จาก content-alignment.css */
+        align-items: var(--left-low-align, flex-start) !important;    /* จาก content-alignment.css */
+        padding: 20px !important;
+    }
+    
+    /* 🎵 ปุ่มควบคุมเสียงเพลง - ใช้ค่าจาก left-low-config.css */
+    .music-controls {
+        display: flex;
+        align-items: center;
+        gap: var(--music-controls-gap, 15px);
+        background: var(--music-controls-bg, rgba(0, 0, 0, 0.7));
+        backdrop-filter: var(--music-controls-backdrop-blur, blur(10px));
+        padding: var(--music-controls-padding, 15px 20px);
+        border-radius: var(--music-controls-border-radius, 50px);
+        border: var(--music-controls-border-width, 1px) solid var(--music-controls-border-color, rgba(255, 255, 255, 0.2));
+        box-shadow: var(--music-controls-shadow, 0 8px 32px rgba(0, 0, 0, 0.3));
+        transition: var(--music-controls-transition, all 0.5s ease);
+        max-width: var(--music-controls-max-width, 300px);
+        overflow: hidden;
+        opacity: var(--music-controls-opacity-normal, 1);
+        width: auto;
+        margin: 0;
+    }
+
+    .music-controls.collapsed {
+        max-width: var(--music-controls-max-width-collapsed, 60px);
+        padding: 15px;
+        opacity: var(--music-controls-opacity-collapsed, 0.2);
+        background: var(--music-controls-bg-collapsed, rgba(0, 0, 0, 0.3));
+        border-color: var(--music-controls-border-color-collapsed, rgba(255, 255, 255, 0.1));
+    }
+
+    .music-controls.collapsed .volume-slider,
+    .music-controls.collapsed .volume-level {
+        opacity: 0;
+        width: 0;
+        pointer-events: none;
+    }
+
+    .music-controls:hover {
+        background: var(--music-controls-bg-hover, rgba(0, 0, 0, 0.85));
+        border-color: var(--music-controls-border-color-hover, rgba(255, 255, 255, 0.4));
+        box-shadow: var(--music-controls-shadow-hover, 0 12px 40px rgba(0, 0, 0, 0.5));
+        opacity: 1 !important;
+        max-width: var(--music-controls-max-width, 300px) !important;
+    }
+
+    /* ปุ่ม Mute/Unmute */
+    .mute-btn {
+        background: transparent;
+        border: none;
+        color: var(--mute-btn-color, white);
+        font-size: var(--mute-btn-font-size, 24px);
+        cursor: pointer;
+        transition: var(--mute-btn-transition, all 0.3s);
+        padding: var(--mute-btn-padding, 5px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mute-btn:hover {
+        transform: scale(var(--mute-btn-scale-hover, 1.2));
+        filter: drop-shadow(var(--mute-btn-shadow-hover, 0 0 10px rgba(255, 255, 255, 0.5)));
+    }
+
+    /* Volume Slider */
+    .volume-slider {
+        width: var(--volume-slider-width, 100px);
+        height: var(--volume-slider-height, 6px);
+        -webkit-appearance: none;
+        appearance: none;
+        background: var(--volume-slider-bg, rgba(255, 255, 255, 0.3));
+        border-radius: var(--volume-slider-border-radius, 10px);
+        outline: none;
+        transition: var(--volume-slider-transition, all 0.5s);
+    }
+
+    .volume-slider:hover {
+        background: var(--volume-slider-bg-hover, rgba(255, 255, 255, 0.4));
+    }
+
+    /* Slider Thumb - WebKit */
+    .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: var(--volume-thumb-size, 16px);
+        height: var(--volume-thumb-size, 16px);
+        background: var(--volume-thumb-bg, white);
+        border-radius: var(--volume-thumb-border-radius, 50%);
+        cursor: pointer;
+        box-shadow: var(--volume-thumb-shadow, 0 0 10px rgba(255, 255, 255, 0.5));
+        transition: var(--volume-thumb-transition, all 0.3s);
+    }
+
+    .volume-slider::-webkit-slider-thumb:hover {
+        transform: scale(var(--volume-thumb-scale-hover, 1.2));
+        box-shadow: var(--volume-thumb-shadow-hover, 0 0 15px rgba(255, 255, 255, 0.8));
+    }
+
+    /* Slider Thumb - Firefox */
+    .volume-slider::-moz-range-thumb {
+        width: var(--volume-thumb-size, 16px);
+        height: var(--volume-thumb-size, 16px);
+        background: var(--volume-thumb-bg, white);
+        border-radius: var(--volume-thumb-border-radius, 50%);
+        cursor: pointer;
+        box-shadow: var(--volume-thumb-shadow, 0 0 10px rgba(255, 255, 255, 0.5));
+        border: none;
+        transition: var(--volume-thumb-transition, all 0.3s);
+    }
+
+    .volume-slider::-moz-range-thumb:hover {
+        transform: scale(var(--volume-thumb-scale-hover, 1.2));
+        box-shadow: var(--volume-thumb-shadow-hover, 0 0 15px rgba(255, 255, 255, 0.8));
+    }
+
+    /* Volume Level Indicator */
+    .volume-level {
+        color: var(--volume-level-color, white);
+        font-size: var(--volume-level-font-size, 14px);
+        font-weight: bold;
+        min-width: var(--volume-level-min-width, 40px);
+        text-align: center;
+    }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .music-controls {
+            padding: var(--music-controls-padding-tablet, 12px 18px);
+            max-width: var(--music-controls-max-width-tablet, 280px);
+        }
+        
+        .mute-btn {
+            font-size: var(--mute-btn-font-size-tablet, 22px);
+        }
+        
+        .volume-slider {
+            width: var(--volume-slider-width-tablet, 90px);
+        }
+        
+        .volume-level {
+            font-size: var(--volume-level-font-size-tablet, 13px);
+        }
+    }
+    
+    @media (max-width: 640px) {
+        .music-controls {
+            padding: var(--music-controls-padding-mobile, 10px 15px);
+            max-width: var(--music-controls-max-width-mobile, 250px);
+        }
+        
+        .music-controls.collapsed {
+            max-width: var(--music-controls-max-width-collapsed-mobile, 50px);
+        }
+        
+        .mute-btn {
+            font-size: var(--mute-btn-font-size-mobile, 20px);
+        }
+        
+        .volume-slider {
+            width: var(--volume-slider-width-mobile, 80px);
+            height: var(--volume-slider-height-mobile, 5px);
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            width: var(--volume-thumb-size-mobile, 14px);
+            height: var(--volume-thumb-size-mobile, 14px);
+        }
+        
+        .volume-slider::-moz-range-thumb {
+            width: var(--volume-thumb-size-mobile, 14px);
+            height: var(--volume-thumb-size-mobile, 14px);
+        }
+        
+        .volume-level {
+            font-size: var(--volume-level-font-size-mobile, 12px);
+        }
+    }
+</style>
+
+<div class="music-controls">
+    <button class="mute-btn" id="muteBtn" onclick="toggleMute()">
+        🔊
+    </button>
+    <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider"
+        oninput="changeVolume(this.value)">
+    <span class="volume-level" id="volumeLevel">50%</span>
+</div>
+
+<script>
+// ========================================
+// Music Controls Functions
+// ========================================
+
+function toggleMute() {
+    const audio = document.getElementById('bgMusic');
+    const muteBtn = document.getElementById('muteBtn');
+    
+    if (audio.muted) {
+        audio.muted = false;
+        muteBtn.textContent = '🔊';
+    } else {
+        audio.muted = true;
+        muteBtn.textContent = '🔇';
+    }
+    resetCollapseTimer();
+}
+
+function changeVolume(value) {
+    const audio = document.getElementById('bgMusic');
+    const volumeLevel = document.getElementById('volumeLevel');
+    const muteBtn = document.getElementById('muteBtn');
+    
+    audio.volume = value / 100;
+    volumeLevel.textContent = value + '%';
+
+    if (value == 0) {
+        muteBtn.textContent = '🔇';
+        audio.muted = true;
+    } else {
+        audio.muted = false;
+        if (value < 30) {
+            muteBtn.textContent = '🔈';
+        } else if (value < 70) {
+            muteBtn.textContent = '🔉';
+        } else {
+            muteBtn.textContent = '🔊';
+        }
+    }
+    resetCollapseTimer();
+}
+
+function collapseControls() {
+    const musicControls = document.querySelector('.music-controls');
+    if (musicControls) {
+        musicControls.classList.add('collapsed');
+    }
+}
+
+function expandControls() {
+    const musicControls = document.querySelector('.music-controls');
+    if (musicControls) {
+        musicControls.classList.remove('collapsed');
+        resetCollapseTimer();
+    }
+}
+
+let collapseTimeout;
+function resetCollapseTimer() {
+    clearTimeout(collapseTimeout);
+    collapseTimeout = setTimeout(collapseControls, 2000);
+}
+
+// ========================================
+// Event Listeners
+// ========================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const musicControls = document.querySelector('.music-controls');
+    const volumeSlider = document.getElementById('volumeSlider');
+    
+    if (musicControls) {
+        musicControls.addEventListener('mouseenter', expandControls);
+        musicControls.addEventListener('mouseleave', resetCollapseTimer);
+        musicControls.addEventListener('click', expandControls);
+    }
+    
+    if (volumeSlider) {
+        volumeSlider.addEventListener('input', function () {
+            changeVolume(this.value);
+        });
+    }
+    
+    resetCollapseTimer();
+});
+</script>

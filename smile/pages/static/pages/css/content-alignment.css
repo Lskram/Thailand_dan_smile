@@ -1,0 +1,175 @@
+/**
+ * ========================================
+ * Content Alignment Configuration CSS
+ * ========================================
+ * ไฟล์นี้ใช้สำหรับปรับการจัดวางเนื้อหาภายในแต่ละช่อง
+ * ✅ เวอร์ชัน 2.0 - อัปเดตล่าสุด
+ * ========================================
+ */
+
+:root {
+    /* ========================================
+     * 🟦 กล่องซ้าย - การจัดวางเนื้อหา
+     * ======================================== */
+    
+    /* left_top.html - Vertical & Horizontal Alignment */
+    --left-top-justify: center;        /* แนวตั้ง: flex-start (บน) | center (กลาง) | flex-end (ล่าง) */
+    --left-top-align: center;          /* แนวนอน: flex-start (ซ้าย) | center (กลาง) | flex-end (ขวา) */
+    
+    /* left_mid.html - Vertical & Horizontal Alignment */
+    --left-mid-justify: center;        /* แนวตั้ง: flex-start (บน) | center (กลาง) | flex-end (ล่าง) */
+    --left-mid-align: center;          /* แนวนอน: flex-start (ซ้าย) | center (กลาง) | flex-end (ขวา) | stretch (เต็มความกว้าง) */
+    
+    /* left_low.html - Vertical & Horizontal Alignment */
+    --left-low-justify: center;        /* ⭐ แนวตั้ง: center (กึ่งกลาง) */
+    --left-low-align: flex-start;      /* ⭐ แนวนอน: flex-start (ซ้ายสุด) */
+
+
+    /* ========================================
+     * 🟩 กล่องกลาง - การจัดวางเนื้อหา
+     * ======================================== */
+    
+    /* middle_top.html - Vertical & Horizontal Alignment */
+    --center-top-justify: center;      /* แนวตั้ง: flex-start (บน) | center (กลาง) | flex-end (ล่าง) */
+    --center-top-align: center;        /* แนวนอน: flex-start (ซ้าย) | center (กลาง) | flex-end (ขวา) */
+    
+    /* middle.html - Vertical & Horizontal Alignment */
+    --center-main-justify: center;     /* แนวตั้ง: flex-start (บน) | center (กลาง) | flex-end (ล่าง) */
+    --center-main-align: center;       /* แนวนอน: flex-start (ซ้าย) | center (กลาง) | flex-end (ขวา) */
+    
+    /* mid-low.html - Vertical & Horizontal Alignment */
+    --center-bottom-justify: center;   /* แนวตั้ง: flex-start (บน) | center (กลาง) | flex-end (ล่าง) */
+    --center-bottom-align: center;     /* แนวนอน: flex-start (ซ้าย) | center (กลาง) | flex-end (ขวา) */
+
+
+    /* ========================================
+     * 🟨 กล่องขวา - การจัดวางเนื้อหา
+     * ======================================== */
+    
+    /* right_Box-top.html - Vertical & Horizontal Alignment */
+    --right-top-justify: center;       /* แนวตั้ง: flex-start (บน) | center (กลาง) | flex-end (ล่าง) */
+    --right-top-align: center;         /* แนวนอน: flex-start (ซ้าย) | center (กลาง) | flex-end (ขวา) */
+    
+    /* right_Box.html - Vertical & Horizontal Alignment */
+    --right-mid-justify: center;       /* แนวตั้ง: flex-start (บน) | center (กลาง) | flex-end (ล่าง) */
+    --right-mid-align: center;         /* แนวนอน: flex-start (ซ้าย) | center (กลาง) | flex-end (ขวา) | stretch (เต็มความกว้าง) */
+    
+    /* right_Box-low.html - Vertical & Horizontal Alignment */
+    --right-low-justify: center;       /* แนวตั้ง: flex-start (บน) | center (กลาง) | flex-end (ล่าง) */
+    --right-low-align: center;         /* แนวนอน: flex-start (ซ้าย) | center (กลาง) | flex-end (ขวา) */
+}
+
+
+/* ========================================
+ * 🟦 กล่องซ้าย - Apply Alignment
+ * ======================================== */
+.left-section.top {
+    display: flex;
+    flex-direction: column;
+    justify-content: var(--left-top-justify);
+    align-items: var(--left-top-align);
+}
+
+.left-section.mid {
+    display: flex;
+    flex-direction: column;
+    justify-content: var(--left-mid-justify);
+    align-items: var(--left-mid-align);
+}
+
+.left-section.low {
+    display: flex;
+    flex-direction: column;
+    justify-content: var(--left-low-justify);
+    align-items: var(--left-low-align);
+}
+
+
+/* ========================================
+ * 🟩 กล่องกลาง - Apply Alignment
+ * ======================================== */
+.center-section.top {
+    display: flex;
+    flex-direction: column;
+    justify-content: var(--center-top-justify);
+    align-items: var(--center-top-align);
+}
+
+.center-section.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: var(--center-main-justify);
+    align-items: var(--center-main-align);
+}
+
+.center-section.bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: var(--center-bottom-justify);
+    align-items: var(--center-bottom-align);
+}
+
+
+/* ========================================
+ * 🟨 กล่องขวา - Apply Alignment
+ * ======================================== */
+.right-section.top {
+    display: flex;
+    flex-direction: column;
+    justify-content: var(--right-top-justify);
+    align-items: var(--right-top-align);
+}
+
+.right-section.mid {
+    display: flex;
+    flex-direction: column;
+    justify-content: var(--right-mid-justify);
+    align-items: var(--right-mid-align);
+}
+
+.right-section.low {
+    display: flex;
+    flex-direction: column;
+    justify-content: var(--right-low-justify);
+    align-items: var(--right-low-align);
+}
+
+
+/* ========================================
+ * 🎨 ตัวอย่างการใช้งาน
+ * ========================================
+ * 
+ * ตัวอย่าง 1: ให้เนื้อหาใน left_top อยู่บนสุด
+ * --left-top-justify: flex-start;
+ * --left-top-align: center;
+ * 
+ * ตัวอย่าง 2: ให้เนื้อหาใน middle.html อยู่ล่างสุด
+ * --center-main-justify: flex-end;
+ * --center-main-align: center;
+ * 
+ * ตัวอย่าง 3: ให้เนื้อหาใน right_Box-top อยู่ซ้ายบน
+ * --right-top-justify: flex-start;
+ * --right-top-align: flex-start;
+ * 
+ * ตัวอย่าง 4: ให้เนื้อหาใน mid-low เต็มความกว้าง
+ * --center-bottom-justify: center;
+ * --center-bottom-align: stretch;
+ * 
+ * ตัวอย่าง 5: ให้ left_low (music controls) อยู่ซ้าย-กลาง ⭐ ใหม่!
+ * --left-low-justify: center;      (กึ่งกลางแนวตั้ง)
+ * --left-low-align: flex-start;    (ซ้ายสุดแนวนอน)
+ * 
+ * justify-content (แนวตั้ง):
+ * - flex-start: บนสุด
+ * - center: กึ่งกลาง
+ * - flex-end: ล่างสุด
+ * - space-between: กระจายเท่าๆ กัน
+ * 
+ * align-items (แนวนอน):
+ * - flex-start: ซ้ายสุด
+ * - center: กึ่งกลาง
+ * - flex-end: ขวาสุด
+ * - stretch: เต็มความกว้าง
+ * 
+ * ========================================
+ */

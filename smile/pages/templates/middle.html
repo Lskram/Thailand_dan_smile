@@ -1,51 +1,86 @@
 <style>
-    /* 🎬 ส่วนกลาง */
+    /* 🎬 ส่วนกลาง - YouTube Player ใช้ Config Variables */
     .middle-section {
-        background: transparent;
-        border: none;
-        border-radius: 15px;
-        padding: 0;
-        height: 70%;
+        background: var(--youtube-section-bg, transparent);
+        border: var(--youtube-section-border-width, 0) solid var(--youtube-section-border-color, transparent);
+        border-radius: var(--youtube-section-border-radius, 15px);
+        padding: var(--youtube-section-padding, 0);
+        height: var(--youtube-section-height, 100%);
+        width: 100%; /* ⚠️ เพิ่มบรรทัดนี้ */
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
         overflow: hidden;
-        filter: drop-shadow(0 0 20px rgba(100, 200, 255, 0.4)) drop-shadow(0 0 30px rgba(150, 100, 255, 0.3)) drop-shadow(0 0 40px rgba(255, 100, 200, 0.2));
-        transition: all 0.3s ease;
+        box-sizing: border-box; /* ⚠️ เพิ่มบรรทัดนี้ */
+        filter: var(--youtube-drop-shadow-default,
+            drop-shadow(0 0 20px rgba(100, 200, 255, 0.4))
+            drop-shadow(0 0 30px rgba(150, 100, 255, 0.3))
+            drop-shadow(0 0 40px rgba(255, 100, 200, 0.2))
+        );
+        transition: var(--youtube-section-transition, all 0.3s ease);
     }
 
     .middle-section:hover {
-        filter: drop-shadow(0 0 30px rgba(100, 200, 255, 0.6)) drop-shadow(0 0 45px rgba(150, 100, 255, 0.5)) drop-shadow(0 0 60px rgba(255, 100, 200, 0.4)) drop-shadow(0 0 80px rgba(100, 255, 150, 0.3));
-        transform: scale(1.02);
+        filter: var(--youtube-drop-shadow-hover,
+            drop-shadow(0 0 30px rgba(100, 200, 255, 0.6))
+            drop-shadow(0 0 45px rgba(150, 100, 255, 0.5))
+            drop-shadow(0 0 60px rgba(255, 100, 200, 0.4))
+            drop-shadow(0 0 80px rgba(100, 255, 150, 0.3))
+        );
+        transform: scale(var(--youtube-scale-hover, 1.02));
     }
 
+    .middle-section #youtubeVideo {
+        width: var(--youtube-video-width, 100%);
+        height: var(--youtube-video-height, 100%);
+        position: relative;
+    }
+
+    .middle-section #youtubeVideo iframe,
     .middle-section iframe {
         width: 100%;
         height: 100%;
         border: none;
-        border-radius: 15px;
+        border-radius: var(--youtube-iframe-border-radius, 15px);
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 
     /* 📱 Responsive */
     @media (max-width: 1024px) {
         .middle-section {
-            height: 300px;
+            height: var(--youtube-section-height-tablet, 300px);
+            border-radius: var(--youtube-section-border-radius-tablet, 12px);
+            filter: drop-shadow(0 0 15px var(--glow-color-1-tablet, rgba(100, 200, 255, 0.3)))
+                    drop-shadow(0 0 25px var(--glow-color-2-tablet, rgba(150, 100, 255, 0.2)))
+                    drop-shadow(0 0 35px var(--glow-color-3-tablet, rgba(255, 100, 200, 0.15)));
+        }
+
+        .middle-section #youtubeVideo iframe,
+        .middle-section iframe {
+            border-radius: var(--youtube-iframe-border-radius-tablet, 12px);
         }
     }
 
     @media (max-width: 640px) {
         .middle-section {
-            height: 250px;
+            height: var(--youtube-section-height-mobile, 250px);
+            border-radius: var(--youtube-section-border-radius-mobile, 10px);
+            filter: drop-shadow(0 0 10px var(--glow-color-1-mobile, rgba(100, 200, 255, 0.2)))
+                    drop-shadow(0 0 20px var(--glow-color-2-mobile, rgba(150, 100, 255, 0.15)))
+                    drop-shadow(0 0 30px var(--glow-color-3-mobile, rgba(255, 100, 200, 0.1)));
+        }
+
+        .middle-section #youtubeVideo iframe,
+        .middle-section iframe {
+            border-radius: var(--youtube-iframe-border-radius-mobile, 10px);
         }
     }
 </style>
 
-<!-- ส่วนกลาง -->
+<!-- ส่วนกลาง - YouTube Player -->
 <div class="middle-section">
-    <iframe id="youtubeVideo" src="https://www.youtube.com/embed/cIJQrqAHpZI?enablejsapi=1&vq=hd1080&hd=1"
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen>
-    </iframe>
+    <div id="youtubeVideo"></div>
 </div>

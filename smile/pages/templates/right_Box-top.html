@@ -1,0 +1,85 @@
+{% load static %}
+
+<style>
+    .right-top-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .right-top-title {
+        color: white;
+        font-size: 20px;
+        font-weight: 700;
+        margin: 0;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .right-top-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 14px;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .right-top-icon {
+        font-size: 32px;
+        margin-bottom: 5px;
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+
+    .decorative-line-right {
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, white, transparent);
+        border-radius: 2px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .right-top-title {
+            font-size: 18px;
+        }
+
+        .right-top-subtitle {
+            font-size: 13px;
+        }
+
+        .right-top-icon {
+            font-size: 28px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .right-top-title {
+            font-size: 16px;
+        }
+
+        .right-top-subtitle {
+            font-size: 12px;
+        }
+
+        .right-top-icon {
+            font-size: 24px;
+        }
+    }
+</style>
+
+<div class="right-top-content">
+    <div class="right-top-icon">New Mucsic Video</div>
+    <h3 class="right-top-title">Coming soon...</h3>
+    <div class="decorative-line-right"></div>
+    <p class="right-top-subtitle">เลือกวิดีโอที่ต้องการชม</p>
+</div>

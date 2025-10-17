@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -109,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Bangkok'  # ⭐ เปลี่ยนเป็น Bangkok timezone
 
 USE_I18N = True
 
@@ -125,3 +126,165 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# ========================================
+# YouTube Data API v3 Configuration
+# ========================================
+# Get your API key from: https://console.cloud.google.com/apis/credentials
+# Enable YouTube Data API v3 in your Google Cloud project
+
+YOUTUBE_API_KEY = 'AIzaSyCnYU0aflGBxU-7neuaMFBdY49N5B-WnnA'  # ⭐ YouTube Data API v3
+
+
+# ========================================
+# YouTube Comments Cache Settings
+# ========================================
+
+# เวลา Cache default (หน่วยเป็นชั่วโมง)
+YOUTUBE_COMMENTS_CACHE_HOURS = 1  # Default: 1 ชั่วโมง
+
+# จำนวนคอมเมนท์สูงสุดที่ดึงจาก API
+YOUTUBE_COMMENTS_MAX_RESULTS = 50  # Default: 50 comments
+
+
+# ========================================
+# Logging Configuration
+# ========================================
+# สร้างโฟลเดอร์ logs อัตโนมัติ
+
+LOGS_DIR = BASE_DIR / 'logs'
+if not os.path.exists(LOGS_DIR):
+    os.makedirs(LOGS_DIR)
+    print(f"✅ Created logs directory: {LOGS_DIR}")
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': LOGS_DIR / 'youtube_api.log',
+            'formatter': 'verbose',
+            'encoding': 'utf-8',
+        },
+        'error_file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': LOGS_DIR / 'errors.log',
+            'formatter': 'verbose',
+            'encoding': 'utf-8',
+        },
+    },
+    'loggers': {
+        'videos': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django': {
+            'handlers': ['console', 'error_file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['console', 'error_file'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+}
+
+
+# ========================================
+# Development Settings
+# ========================================
+
+# แสดง SQL queries ใน Console (สำหรับ Debug)
+if DEBUG:
+    LOGGING['loggers']['django.db.backends'] = {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+        'propagate': False,
+    }
+
+
+# ========================================
+# Production Settings (Comment out สำหรับ Development)
+# ========================================
+
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SECURE_BROWSER_XSS_FILTER = True
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+# X_FRAME_OPTIONS = 'DENY'
+
+
+# ========================================
+# Custom Settings
+# ========================================
+
+# ระยะเวลา Session (หน่วยเป็นวินาที)
+SESSION_COOKIE_AGE = 86400  # 24 ชั่วโมง
+
+# Auto Sync Comments เมื่อโหลดหน้าเว็บ
+AUTO_SYNC_COMMENTS_ON_LOAD = True  # True = ดึงอัตโนมัติ, False = ใช้ Cache เท่านั้น
+
+# จำนวนคอมเมนท์ที่แสดงในหน้าเว็บ (None = แสดงทั้งหมด)
+COMMENTS_DISPLAY_LIMIT = None  # หรือ 20, 30, 50
+
+
+# ========================================
+# Notes & Documentation
+# ========================================
+
+"""
+📝 YouTube API Configuration:
+1. Get API Key: https://console.cloud.google.com/apis/credentials
+2. Enable: YouTube Data API v3
+3. Quota: 10,000 units/day (1 request = ~5 units)
+
+📊 Cache Strategy:
+- Default cache time: 1 hour
+- Auto sync on page load if no cache or cache expired
+- Force refresh available via API: /api/youtube-comments/refresh/
+
+📁 Logs:
+- youtube_api.log: YouTube API activities
+- errors.log: Django errors only
+- logs/ folder created automatically
+
+🔒 Security:
+- Change SECRET_KEY in production
+- Enable HTTPS settings in production
+- Never commit API keys to Git
+
+🚀 Performance Tips:
+- Increase YOUTUBE_COMMENTS_CACHE_HOURS for high traffic
+- Use COMMENTS_DISPLAY_LIMIT to limit database queries
+- Monitor YouTube API quota usage
+
+📋 Environment Variables (Recommended for Production):
+import os
+YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY', 'default-key')
+SECRET_KEY = os.getenv('SECRET_KEY', 'default-secret')
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+"""

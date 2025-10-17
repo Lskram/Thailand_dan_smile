@@ -1,0 +1,271 @@
+/**
+ * ========================================
+ * Layout Configuration CSS
+ * ========================================
+ * ไฟล์นี้ใช้สำหรับปรับค่าขนาดของ Layout
+ * เพียงแก้ไขตัวเลข % ตามต้องการ
+ * Version: 2.0
+ * ========================================
+ */
+
+:root {
+    /* ========================================
+     * 📐 กำหนดขนาดกล่องหลัก (แนวนอน)
+     * ======================================== */
+    --left-width: 20%;          /* กล่องซ้าย */
+    --center-width: 60%;        /* กล่องกลาง */
+    --right-width: 20%;         /* กล่องขวา */
+
+    /* หมายเหตุ: ผลรวมควรเป็น 100% */
+
+
+    /* ========================================
+     * 📐 กำหนดขนาดกล่องซ้าย (แนวตั้ง)
+     * ======================================== */
+    --left-top-height: 20%;     /* left_top.html - ส่วนบน */
+    --left-mid-height: 70%;     /* left_mid.html - ส่วนกลาง (คอมเมนท์) */
+    --left-low-height: 10%;     /* left_low.html - ส่วนล่าง (ควบคุมเสียง) */
+    
+    /* หมายเหตุ: ผลรวมควรเป็น 100% */
+
+
+    /* ========================================
+     * 📐 กำหนดขนาดกล่องกลาง (แนวตั้ง)
+     * ======================================== */
+    --center-top-height: 15%;    /* middle_top.html - ส่วนบน */
+    --center-main-height: 65%;   /* middle.html - ส่วนกลาง (YouTube) */
+    --center-bottom-height: 20%; /* mid-low.html - ส่วนล่าง */
+    
+    /* หมายเหตุ: ผลรวมควรเป็น 100% */
+
+
+    /* ========================================
+     * 📐 กำหนดขนาดกล่องขวา (แนวตั้ง)
+     * ======================================== */
+    --right-top-height: 15%;     /* right_Box-top.html - ส่วนบน */
+    --right-mid-height: 70%;     /* right_Box.html - ส่วนกลาง (รายการวิดีโอ) */
+    --right-low-height: 15%;     /* right_Box-low.html - ส่วนล่าง */
+    
+    /* หมายเหตุ: ผลรวมควรเป็น 100% */
+
+
+    /* ========================================
+     * 🎨 Border & Spacing
+     * ======================================== */
+    --section-border-color: rgba(255, 255, 255, 0.1);
+    --section-padding: 20px;
+
+
+    /* ========================================
+     * 📱 Responsive Breakpoints
+     * ======================================== */
+    --tablet-breakpoint: 1024px;
+    --mobile-breakpoint: 640px;
+}
+
+
+/* ========================================
+ * 📦 กล่องหลัก 3 คอลัมน์
+ * ======================================== */
+.container {
+    display: grid;
+    grid-template-columns: var(--left-width) var(--center-width) var(--right-width);
+    gap: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+/* ========================================
+ * 🟦 กล่องซ้าย
+ * ======================================== */
+.left {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.08) 100%
+    );
+    backdrop-filter: blur(20px);
+}
+
+.left-section {
+    border-bottom: 1px solid var(--section-border-color);
+    padding: var(--section-padding);
+    overflow: hidden;
+}
+
+.left-section:last-child {
+    border-bottom: none;
+}
+
+.left-section.top {
+    flex: 0 0 var(--left-top-height);
+    height: var(--left-top-height);
+}
+
+.left-section.mid {
+    flex: 0 0 var(--left-mid-height);
+    height: var(--left-mid-height);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.left-section.low {
+    flex: 0 0 var(--left-low-height);
+    height: var(--left-low-height);
+}
+
+
+/* ========================================
+ * 🟩 กล่องกลาง
+ * ======================================== */
+.center {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 100%
+    );
+    backdrop-filter: blur(20px);
+}
+
+.center-section.top {
+    flex: 0 0 var(--center-top-height);
+    height: var(--center-top-height);
+    border-bottom: 1px solid var(--section-border-color);
+    padding: var(--section-padding);
+}
+
+.center-section.main {
+    flex: 0 0 var(--center-main-height);
+    height: var(--center-main-height);
+    min-height: 0;
+    overflow: hidden;
+    padding: var(--section-padding);
+}
+
+.center-section.bottom {
+    flex: 0 0 var(--center-bottom-height);
+    height: var(--center-bottom-height);
+    border-top: 1px solid var(--section-border-color);
+    padding: 15px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* ========================================
+ * 🟨 กล่องขวา
+ * ======================================== */
+.right {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.08) 100%
+    );
+    backdrop-filter: blur(20px);
+}
+
+.right-section {
+    border-bottom: 1px solid var(--section-border-color);
+    padding: var(--section-padding);
+    overflow: hidden;
+}
+
+.right-section:last-child {
+    border-bottom: none;
+}
+
+.right-section.top {
+    flex: 0 0 var(--right-top-height);
+    height: var(--right-top-height);
+}
+
+.right-section.mid {
+    flex: 0 0 var(--right-mid-height);
+    height: var(--right-mid-height);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.right-section.low {
+    flex: 0 0 var(--right-low-height);
+    height: var(--right-low-height);
+}
+
+
+/* ========================================
+ * 📜 Scrollbar Styling
+ * ======================================== */
+.left-section.mid::-webkit-scrollbar,
+.right-section.mid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.left-section.mid::-webkit-scrollbar-track,
+.right-section.mid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.left-section.mid::-webkit-scrollbar-thumb,
+.right-section.mid::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+.left-section.mid::-webkit-scrollbar-thumb:hover,
+.right-section.mid::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+
+/* ========================================
+ * 📱 Responsive
+ * ======================================== */
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    .left, .center, .right {
+        min-height: 300px;
+    }
+
+    .left-section.mid,
+    .right-section.mid {
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 640px) {
+    .left-section, .right-section,
+    .center-section.top, .center-section.main, .center-section.bottom {
+        padding: 15px;
+    }
+
+    .left, .center, .right {
+        min-height: 250px;
+    }
+}

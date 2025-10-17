@@ -1,0 +1,207 @@
+{% load static %}
+
+<style>
+    /* ⚠️ ไม่มี wrapper หรือ container เพิ่มเติม - ใช้ parent จาก layout-config.css */
+    
+    /* เอฟเฟกต์แสงเคลื่อนไหวด้านหลัง */
+    .left-section.top::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent
+        );
+        transform: rotate(45deg);
+        animation: shine var(--profile-shine-duration, 3s) infinite;
+        z-index: 0;
+    }
+
+    @keyframes shine {
+        0% {
+            top: -50%;
+            right: -50%;
+        }
+        100% {
+            top: 150%;
+            right: 150%;
+        }
+    }
+
+    /* Container ภายใน - ใช้ Config Variables */
+    .profile-container {
+        display: flex;
+        flex-direction: var(--profile-container-direction, column);
+        justify-content: var(--profile-container-justify, center);
+        align-items: var(--profile-container-align, center);
+        gap: var(--profile-container-gap, 25px);
+        width: 100%;
+        height: 100%;
+        position: relative;
+        z-index: 1;
+        padding: var(--profile-container-padding, 30px 25px);
+        box-sizing: border-box;
+        overflow: hidden; /* ⚠️ ป้องกันเนื้อหาล้น */
+    }
+
+    /* ส่วนของรูปภาพ */
+    .profile-image-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0; /* ⚠️ ป้องกันรูปถูกบีบ */
+    }
+
+    .profile-image {
+        width: var(--profile-image-width, 120px);
+        height: var(--profile-image-height, 120px);
+        max-width: 100%; /* ⚠️ ไม่ให้เกินกรอบ */
+        max-height: 100%; /* ⚠️ ไม่ให้เกินกรอบ */
+        display: block;
+        object-fit: contain; /* ⚠️ เปลี่ยนจาก cover เป็น contain */
+        border-radius: var(--profile-image-border-radius, 50%);
+        background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+        box-shadow: var(--profile-image-shadow, 
+            0 8px 32px rgba(0, 0, 0, 0.25),
+            0 0 0 6px rgba(255, 255, 255, 0.2)
+        );
+        border: var(--profile-image-border-width, 3px) solid var(--profile-image-border-color, rgba(255, 255, 255, 0.5));
+        transition: var(--profile-image-transition, all 0.3s ease);
+        animation: float var(--profile-image-float-duration, 3s) ease-in-out infinite;
+        flex-shrink: 0; /* ⚠️ ป้องกันรูปถูกบีบ */
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    .profile-image:hover {
+        transform: scale(var(--profile-image-scale-hover, 1.05)) translateY(var(--profile-image-translateY-hover, -5px));
+        box-shadow: var(--profile-image-shadow-hover,
+            0 12px 40px rgba(0, 0, 0, 0.35),
+            0 0 0 8px rgba(255, 255, 255, 0.3)
+        );
+        animation: none;
+    }
+
+    /* เนื้อหาด้านใน */
+    .profile-content {
+        text-align: center;
+        width: 100%;
+        flex-shrink: 1; /* ⚠️ อนุญาตให้บีบได้ถ้าจำเป็น */
+        min-height: 0; /* ⚠️ ช่วยให้ flexbox ทำงานถูกต้อง */
+        overflow: hidden; /* ⚠️ ป้องกันเนื้อหาล้น */
+    }
+
+    .profile-title {
+        color: var(--profile-title-color, white);
+        font-size: var(--profile-title-font-size, 22px);
+        margin: var(--profile-title-margin, 0 0 12px 0);
+        font-weight: var(--profile-title-font-weight, 700);
+        text-shadow: var(--profile-title-shadow, 0 2px 10px rgba(0, 0, 0, 0.2));
+        letter-spacing: var(--profile-title-letter-spacing, 0.5px);
+        overflow: hidden; /* ⚠️ ป้องกันข้อความล้น */
+        text-overflow: ellipsis; /* ⚠️ ใส่ ... ถ้าข้อความยาวเกิน */
+        white-space: nowrap; /* ⚠️ บังคับให้อยู่บรรทัดเดียว */
+    }
+
+    /* เส้นตกแต่ง */
+    .profile-decorative-line {
+        width: var(--decorative-line-width, 60px);
+        height: var(--decorative-line-height, 3px);
+        background: var(--decorative-line-gradient, linear-gradient(90deg, transparent, white, transparent));
+        margin: var(--decorative-line-margin, 0 auto 15px auto);
+        border-radius: var(--decorative-line-border-radius, 2px);
+        flex-shrink: 0; /* ⚠️ ป้องกันเส้นถูกบีบ */
+    }
+
+    .profile-description {
+        color: var(--profile-desc-color, rgba(255, 255, 255, 0.9));
+        font-size: var(--profile-desc-font-size, 14px);
+        margin: 0;
+        line-height: var(--profile-desc-line-height, 1.6);
+        text-shadow: var(--profile-desc-shadow, 0 1px 5px rgba(0, 0, 0, 0.15));
+        overflow: hidden; /* ⚠️ ป้องกันข้อความล้น */
+        display: -webkit-box; /* ⚠️ รองรับหลายบรรทัด */
+        -webkit-line-clamp: 3; /* ⚠️ จำกัดแค่ 3 บรรทัด */
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis; /* ⚠️ ใส่ ... ถ้าข้อความยาวเกิน */
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .profile-container {
+            gap: var(--profile-container-gap-tablet, 20px);
+            padding: var(--profile-container-padding-tablet, 25px 20px);
+        }
+
+        .profile-image {
+            width: var(--profile-image-width-tablet, 100px);
+            height: var(--profile-image-height-tablet, 100px);
+        }
+
+        .profile-title {
+            font-size: var(--profile-title-font-size-tablet, 20px);
+        }
+
+        .profile-description {
+            font-size: var(--profile-desc-font-size-tablet, 13px);
+        }
+    }
+
+    @media (max-width: 640px) {
+        .profile-container {
+            gap: var(--profile-container-gap-mobile, 15px);
+            padding: var(--profile-container-padding-mobile, 20px 15px);
+        }
+
+        .profile-image {
+            width: var(--profile-image-width-mobile, 80px);
+            height: var(--profile-image-height-mobile, 80px);
+        }
+
+        .profile-title {
+            font-size: var(--profile-title-font-size-mobile, 18px);
+        }
+
+        .profile-description {
+            font-size: var(--profile-desc-font-size-mobile, 12px);
+        }
+
+        .profile-decorative-line {
+            width: var(--decorative-line-width-mobile, 50px);
+        }
+    }
+
+    /* ปิด animations ถ้าต้องการ */
+    @media (prefers-reduced-motion: reduce) {
+        .left-section.top::before,
+        .profile-image {
+            animation: none;
+        }
+    }
+</style>
+
+<!-- ⚠️ ไม่มี wrapper div เพิ่ม - ใช้ class ที่เฉพาะเจาะจง -->
+<div class="profile-container">
+    <div class="profile-image-wrapper">
+        <img src="{% static 'pages/profile/CMM MEdia-Photoroom No BG.png' %}" 
+             alt="CMM Media Logo" 
+             class="profile-image" />
+    </div>
+    <div class="profile-content">
+        <h2 class="profile-title">🎵 Top Section</h2>
+        <div class="profile-decorative-line"></div>
+        <p class="profile-description">เนื้อหาส่วนบน</p>
+    </div>
+</div>

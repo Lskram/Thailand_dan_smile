@@ -1,0 +1,120 @@
+{% load static %}
+
+<style>
+    .right-low-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .right-low-stats {
+        display: flex;
+        gap: 20px;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .stat-item-right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        padding: 10px 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        min-width: 80px;
+    }
+
+    .stat-item-right:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-3px);
+    }
+
+    .stat-number-right {
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .stat-label-right {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .right-low-icon {
+        font-size: 24px;
+        margin-bottom: 5px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .right-low-stats {
+            gap: 15px;
+        }
+
+        .stat-item-right {
+            min-width: 70px;
+            padding: 8px 12px;
+        }
+
+        .stat-number-right {
+            font-size: 18px;
+        }
+
+        .stat-label-right {
+            font-size: 10px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .right-low-stats {
+            gap: 10px;
+        }
+
+        .stat-item-right {
+            min-width: 60px;
+            padding: 6px 10px;
+        }
+
+        .stat-number-right {
+            font-size: 16px;
+        }
+
+        .stat-label-right {
+            font-size: 9px;
+        }
+
+        .right-low-icon {
+            font-size: 20px;
+        }
+    }
+</style>
+
+<div class="right-low-content">
+    <div class="right-low-icon">📊</div>
+    
+    <div class="right-low-stats">
+        <div class="stat-item-right">
+            <span class="stat-number-right">24</span>
+            <span class="stat-label-right">Videos</span>
+        </div>
+        
+        <div class="stat-item-right">
+            <span class="stat-number-right">1.2K</span>
+            <span class="stat-label-right">Views</span>
+        </div>
+        
+        <div class="stat-item-right">
+            <span class="stat-number-right">4.8</span>
+            <span class="stat-label-right">Rating</span>
+        </div>
+    </div>
+</div>

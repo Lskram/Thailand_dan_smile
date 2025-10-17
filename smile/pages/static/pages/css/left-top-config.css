@@ -1,0 +1,92 @@
+/**
+ * ========================================
+ * Left-Top (Profile Section) Configuration CSS
+ * ========================================
+ * Version: 2.0
+ * ========================================
+ */
+
+:root {
+    /* ========================================
+     * 🖼️ Profile Image - ขนาดรูป
+     * ======================================== */
+    --profile-image-width: 90px;
+    --profile-image-height: 90px;
+    --profile-image-border-radius: 50%;
+    --profile-image-border-width: 3px;
+    --profile-image-border-color: rgba(255, 255, 255, 0.5);
+
+
+    /* ========================================
+     * ✍️ Typography - ข้อความ
+     * ======================================== */
+    --profile-title-font-size: 20px;
+    --profile-title-font-weight: 700;
+    --profile-title-color: white;
+    --profile-title-margin: 0 0 12px 0;
+    --profile-title-letter-spacing: 0.5px;
+    
+    --profile-desc-font-size: 13px;
+    --profile-desc-color: rgba(255, 255, 255, 0.9);
+    --profile-desc-line-height: 1.6;
+
+
+    /* ========================================
+     * 📏 Layout & Spacing
+     * ======================================== */
+    --profile-container-gap: 15px;
+    --profile-container-padding: 20px 15px;
+    --profile-container-direction: column;
+    --profile-container-justify: center;
+    --profile-container-align: center;
+
+
+    /* ========================================
+     * 🎨 Decorative Line
+     * ======================================== */
+    --decorative-line-width: 60px;
+    --decorative-line-height: 3px;
+    --decorative-line-margin: 0 auto 15px auto;
+    --decorative-line-border-radius: 2px;
+    --decorative-line-gradient: linear-gradient(90deg, transparent, white, transparent);
+
+
+    /* ========================================
+     * ⚡ Effects & Shadows
+     * ======================================== */
+    --profile-image-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.25),
+        0 0 0 6px rgba(255, 255, 255, 0.2);
+    --profile-image-shadow-hover: 
+        0 12px 40px rgba(0, 0, 0, 0.35),
+        0 0 0 8px rgba(255, 255, 255, 0.3);
+    
+    --profile-title-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    --profile-desc-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+    
+    --profile-image-transition: all 0.3s ease;
+    --profile-image-float-duration: 3s;
+    --profile-shine-duration: 3s;
+    
+    --profile-image-scale-hover: 1.05;
+    --profile-image-translateY-hover: -5px;
+
+
+    /* ========================================
+     * 📱 Responsive
+     * ======================================== */
+    --profile-container-padding-tablet: 20px 15px;
+    --profile-container-gap-tablet: 15px;
+    --profile-image-width-tablet: 80px;
+    --profile-image-height-tablet: 80px;
+    --profile-title-font-size-tablet: 18px;
+    --profile-desc-font-size-tablet: 12px;
+    
+    --profile-container-padding-mobile: 15px 12px;
+    --profile-container-gap-mobile: 12px;
+    --profile-image-width-mobile: 70px;
+    --profile-image-height-mobile: 70px;
+    --profile-title-font-size-mobile: 16px;
+    --profile-desc-font-size-mobile: 11px;
+    --decorative-line-width-mobile: 50px;
+}

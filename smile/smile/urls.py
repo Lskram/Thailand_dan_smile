@@ -20,7 +20,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pages.urls')),              # หน้าเว็บหลัก
-    path('videos/', include('videos.urls')),      # หน้า video ทั้งหมด
     path("__reload__/", include("django_browser_reload.urls")),
 ]
 

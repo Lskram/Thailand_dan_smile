@@ -1,0 +1,191 @@
+/**
+ * ========================================
+ * Left-Low (Music Controls) Configuration CSS
+ * ========================================
+ * ไฟล์นี้ใช้สำหรับปรับแต่ง Music Controls ใน left_low.html
+ * เปลี่ยนค่าตัวเลขตามต้องการได้ง่ายๆ
+ * 
+ * ✅ เวอร์ชัน 2.0 - อัปเดตล่าสุด
+ * ========================================
+ */
+
+:root {
+    /* ========================================
+     * 🔥 ปรับค่าเหล่านี้ก่อน - สำคัญที่สุด!
+     * ======================================== */
+    
+    /* 🎛️ ขนาดและสไตล์ */
+    --music-controls-max-width: 300px;         /* ความกว้างสูงสุด */
+    --music-controls-gap: 15px;                /* ระยะห่างระหว่างองค์ประกอบ */
+    --music-controls-padding: 15px 20px;       /* Padding ภายใน */
+    --music-controls-border-radius: 50px;      /* ความโค้งมุม (50px = ทรงแคปซูล) */
+    
+    /* 🎨 ปุ่มและ Slider */
+    --mute-btn-font-size: 24px;                /* ขนาดไอคอนปุ่ม Mute */
+    --volume-slider-width: 100px;              /* ความกว้าง Slider */
+    --volume-slider-height: 6px;               /* ความสูง Slider */
+    --volume-thumb-size: 16px;                 /* ขนาด Thumb (จุดเลื่อน) */
+    --volume-level-font-size: 14px;            /* ขนาดตัวเลข % */
+
+
+    /* ========================================
+     * 🎨 Colors & Effects - สีและเอฟเฟกต์
+     * ======================================== */
+    
+    /* Background Colors */
+    --music-controls-bg: rgba(0, 0, 0, 0.7);
+    --music-controls-bg-hover: rgba(0, 0, 0, 0.85);
+    --music-controls-bg-collapsed: rgba(0, 0, 0, 0.3);
+    
+    /* Border Colors */
+    --music-controls-border-width: 1px;
+    --music-controls-border-color: rgba(255, 255, 255, 0.2);
+    --music-controls-border-color-hover: rgba(255, 255, 255, 0.4);
+    --music-controls-border-color-collapsed: rgba(255, 255, 255, 0.1);
+    
+    /* Text Colors */
+    --mute-btn-color: white;
+    --volume-level-color: white;
+    
+    /* Slider Colors */
+    --volume-slider-bg: rgba(255, 255, 255, 0.3);
+    --volume-slider-bg-hover: rgba(255, 255, 255, 0.4);
+    --volume-thumb-bg: white;
+    
+    /* Shadow Effects */
+    --music-controls-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --music-controls-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.5);
+    --volume-thumb-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    --volume-thumb-shadow-hover: 0 0 15px rgba(255, 255, 255, 0.8);
+    --mute-btn-shadow-hover: 0 0 10px rgba(255, 255, 255, 0.5);
+
+
+    /* ========================================
+     * ⚡ Animation & Transitions - เอฟเฟกต์
+     * ======================================== */
+    
+    /* Transition Speeds */
+    --music-controls-transition: all 0.5s ease;
+    --mute-btn-transition: all 0.3s;
+    --volume-slider-transition: all 0.5s;
+    --volume-thumb-transition: all 0.3s;
+    
+    /* Hover/Collapse Effects */
+    --music-controls-opacity-collapsed: 0.2;
+    --music-controls-opacity-normal: 1;
+    --music-controls-max-width-collapsed: 60px;
+    --mute-btn-scale-hover: 1.2;
+    --volume-thumb-scale-hover: 1.2;
+    
+    /* Backdrop Filter */
+    --music-controls-backdrop-blur: blur(10px);
+
+
+    /* ========================================
+     * 📐 Internal Spacing - ระยะห่างภายใน
+     * ======================================== */
+    
+    --mute-btn-padding: 5px;
+    --volume-slider-border-radius: 10px;
+    --volume-thumb-border-radius: 50%;
+    --volume-level-min-width: 40px;
+
+
+    /* ========================================
+     * 📱 Responsive Breakpoints
+     * ======================================== */
+    
+    /* Tablet (max-width: 1024px) */
+    --music-controls-padding-tablet: 12px 18px;
+    --music-controls-max-width-tablet: 280px;
+    --mute-btn-font-size-tablet: 22px;
+    --volume-slider-width-tablet: 90px;
+    --volume-level-font-size-tablet: 13px;
+    
+    /* Mobile (max-width: 640px) */
+    --music-controls-padding-mobile: 10px 15px;
+    --music-controls-max-width-mobile: 250px;
+    --music-controls-max-width-collapsed-mobile: 50px;
+    --mute-btn-font-size-mobile: 20px;
+    --volume-slider-width-mobile: 80px;
+    --volume-slider-height-mobile: 5px;
+    --volume-thumb-size-mobile: 14px;
+    --volume-level-font-size-mobile: 12px;
+
+
+    /* ========================================
+     * 🎯 Accessibility & Performance
+     * ======================================== */
+    
+    /* Accessibility */
+    --focus-outline-width: 2px;
+    --focus-outline-color: rgba(100, 200, 255, 0.8);
+    --focus-outline-offset: 2px;
+    
+    /* Performance Toggles */
+    --enable-auto-collapse: true;
+    --enable-backdrop-blur: true;
+    --enable-hover-effects: true;
+}
+
+
+/* ========================================
+ * 🎨 ตัวอย่างการใช้งาน
+ * ========================================
+ * 
+ * 💡 ตัวอย่าง 1: ทำให้ controls ใหญ่ขึ้น
+ * --music-controls-max-width: 350px;
+ * --music-controls-padding: 18px 25px;
+ * --mute-btn-font-size: 28px;
+ * --volume-slider-width: 120px;
+ * 
+ * 💡 ตัวอย่าง 2: เปลี่ยนสี background เป็นน้ำเงินเข้ม
+ * --music-controls-bg: rgba(20, 20, 80, 0.8);
+ * --music-controls-bg-hover: rgba(20, 20, 80, 0.95);
+ * 
+ * 💡 ตัวอย่าง 3: ทำให้ slider ยาวขึ้น
+ * --volume-slider-width: 150px;
+ * 
+ * 💡 ตัวอย่าง 4: ลด opacity เมื่อ collapse
+ * --music-controls-opacity-collapsed: 0.1;
+ * 
+ * 💡 ตัวอย่าง 5: เพิ่ม blur effect
+ * --music-controls-backdrop-blur: blur(20px);
+ * 
+ * 💡 ตัวอย่าง 6: ทำให้ thumb ใหญ่ขึ้น
+ * --volume-thumb-size: 20px;
+ * 
+ * 💡 ตัวอย่าง 7: เปลี่ยนสีขอบเป็นทอง
+ * --music-controls-border-color: rgba(255, 215, 0, 0.3);
+ * --music-controls-border-color-hover: rgba(255, 215, 0, 0.6);
+ * 
+ * ========================================
+ */
+
+
+/* ========================================
+ * 📝 Documentation
+ * ========================================
+ * 
+ * 🔧 วิธีใช้:
+ * 1. แก้ไขค่าใน :root { } ด้านบนตามต้องการ
+ * 2. Save ไฟล์
+ * 3. Refresh หน้าเว็บ (Ctrl+F5)
+ * 
+ * ⚠️ หมายเหตุ:
+ * - ค่า rgba(r, g, b, a) กำหนดสีและความโปร่งใส
+ * - ค่า px สามารถเปลี่ยนเป็น rem, em ได้
+ * - backdrop-blur อาจช้าบนอุปกรณ์เก่า
+ * 
+ * 🎯 Best Practices:
+ * - ทดสอบบนหน้าจอขนาดต่างๆ
+ * - ตรวจสอบ accessibility (keyboard navigation)
+ * - ใช้สี contrast ที่เห็นชัดเจน
+ * 
+ * 📊 Performance Tips:
+ * - ปิด backdrop blur บนอุปกรณ์ช้า
+ * - ลด transition speed ถ้าจำเป็น
+ * - ใช้ transform แทน position สำหรับ animations
+ * 
+ * ========================================
+ */
