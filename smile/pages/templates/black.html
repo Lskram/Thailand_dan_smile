@@ -16,7 +16,7 @@
     <!-- ⭐ โหลดไฟล์ CSS สำหรับ Config ของ Components -->
     <!-- กล่องซ้าย -->
     <link rel="stylesheet" href="{% static 'pages/css/left-top-config.css' %}">
-    <link rel="stylesheet" href="{% static 'pages/css/left-mid-config.css' %}"> <!-- ⭐ เพิ่ม -->
+    <link rel="stylesheet" href="{% static 'pages/css/left-mid-config.css' %}">
     <link rel="stylesheet" href="{% static 'pages/css/left-low-config.css' %}">
 
     <!-- กล่องกลาง -->
@@ -25,9 +25,9 @@
     <link rel="stylesheet" href="{% static 'pages/css/mid-low-config.css' %}">
 
     <!-- กล่องขวา -->
-    <link rel="stylesheet" href="{% static 'pages/css/right-top-config.css' %}"> <!-- ⭐ เพิ่ม -->
-    <link rel="stylesheet" href="{% static 'pages/css/right-mid-config.css' %}"> <!-- ⭐ เพิ่ม -->
-    <link rel="stylesheet" href="{% static 'pages/css/right-low-config.css' %}"> <!-- ⭐ เพิ่ม -->
+    <link rel="stylesheet" href="{% static 'pages/css/right-top-config.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/right-mid-config.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/right-low-config.css' %}">
 
     <style>
         * {
@@ -41,7 +41,7 @@
             height: 100vh;
             width: 100vw;
             overflow: hidden;
-            background: #1a1a2e;
+            background: transparent;
             color: white;
             font-family: Arial, sans-serif;
         }
@@ -52,7 +52,16 @@
             padding: 0;
         }
 
-        /* 🎥 วิดีโอพื้นหลัง */
+        /* ========================================
+         * 🎥 วิดีโอพื้นหลัง - เต็มจอ พร้อม Blur Control
+         * ======================================== */
+        :root {
+            /* ⭐ ปรับค่า blur ที่นี่ */
+            --video-bg-blur: 8px;           /* ⭐ blur เบาๆ (แนะนำ: 0-20px) */
+            --video-bg-brightness: 0.7;     /* ⭐ ความสว่าง (0-1, 1 = สว่างเต็ม) */
+            --video-bg-opacity: 1;          /* ⭐ ความโปร่งใส (0-1, 1 = ทึบ) */
+        }
+
         .video-background {
             position: fixed;
             top: 0;
@@ -61,19 +70,37 @@
             height: 100%;
             object-fit: cover;
             z-index: -1;
-            opacity: 0.6;
+            opacity: var(--video-bg-opacity);
+            filter: blur(var(--video-bg-blur)) brightness(var(--video-bg-brightness));
+            transition: filter 0.5s ease;
         }
 
-        /* overlay มืดเบาๆ เพื่อให้เนื้อหาเด่นขึ้น */
-        .video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            z-index: -1;
-        }
+        /* ========================================
+         * 🎨 ตัวอย่างการใช้งาน (คอมเมนท์ออกเพื่อทดสอบ)
+         * ======================================== */
+        
+        /* ไม่ blur เลย */
+        /* --video-bg-blur: 0px; */
+        
+        /* blur เบา */
+        /* --video-bg-blur: 5px; */
+        
+        /* blur กลาง */
+        /* --video-bg-blur: 10px; */
+        
+        /* blur แรง */
+        /* --video-bg-blur: 20px; */
+        
+        /* blur สุดๆ */
+        /* --video-bg-blur: 30px; */
+        
+        /* ปรับความสว่าง */
+        /* --video-bg-brightness: 0.5; */ /* มืดลง */
+        /* --video-bg-brightness: 1; */   /* สว่างเต็ม */
+        
+        /* ปรับความโปร่งใส */
+        /* --video-bg-opacity: 0.8; */ /* โปร่งใสเล็กน้อย */
+        /* --video-bg-opacity: 0.5; */ /* โปร่งใสปานกลาง */
     </style>
 </head>
 
@@ -88,7 +115,6 @@
     <video class="video-background" autoplay muted loop playsinline>
         <source src="{% static 'pages/videos/background.mp4' %}" type="video/mp4">
     </video>
-    <div class="video-overlay"></div>
 
     <div class="container">
 
@@ -206,7 +232,6 @@
             const videoCards = document.querySelectorAll('.video-card');
             console.log('🔍 Setting up video card listeners, found:', videoCards.length, 'cards');
 
-            // แสดง URL ทั้งหมดที่พบ
             videoCards.forEach((card, index) => {
                 const url = card.getAttribute('data-video-url');
                 console.log(`  Card ${index + 1}: ${url}`);
@@ -215,7 +240,6 @@
             if (videoCards.length === 0) {
                 console.error('❌ ไม่พบ .video-card เลย! ตรวจสอบว่า right_Box.html โหลดแล้วหรือยัง');
 
-                // ลอง setup อีกครั้งหลัง 2 วินาที
                 setTimeout(() => {
                     console.log('🔄 พยายาม setup video cards อีกครั้ง...');
                     setupVideoCardListeners();
@@ -234,18 +258,15 @@
                     console.log('🎬 คลิกการ์ดที่:', index + 1);
                     console.log('📋 Title:', this.getAttribute('data-title'));
 
-                    // ลองดึง URL ก่อน
                     let videoUrl = this.getAttribute('data-video-url') || this.dataset.videoUrl || '';
                     console.log('📎 Video URL:', videoUrl);
 
-                    // ถ้าไม่มี URL ลองดึง Video ID โดยตรง
                     let videoId = null;
 
                     if (videoUrl && videoUrl.trim() !== '') {
                         videoId = getYouTubeVideoId(videoUrl);
                         console.log('📹 Video ID (from URL):', videoId);
                     } else {
-                        // ลอง fallback ไปที่ data-video-id
                         videoId = this.getAttribute('data-video-id') || this.dataset.videoId || '';
                         console.log('📹 Video ID (direct):', videoId);
                     }
@@ -271,14 +292,6 @@
                             });
                             console.log('✅ โหลดวิดีโอสำเร็จ!');
 
-                            // เอฟเฟกต์ scale การ์ด
-                            this.style.transform = 'scale(0.95)';
-                            this.style.transition = 'transform 0.2s';
-                            setTimeout(() => {
-                                this.style.transform = '';
-                            }, 200);
-
-                            // Scroll ไปที่ YouTube Player
                             const centerElement = document.querySelector('.center');
                             if (centerElement) {
                                 console.log('📜 Scrolling to center...');

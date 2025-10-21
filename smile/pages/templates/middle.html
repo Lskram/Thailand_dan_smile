@@ -12,22 +12,11 @@
         justify-content: center;
         position: relative;
         overflow: hidden;
-        box-sizing: border-box; /* ⚠️ เพิ่มบรรทัดนี้ */
-        filter: var(--youtube-drop-shadow-default,
-            drop-shadow(0 0 20px rgba(100, 200, 255, 0.4))
-            drop-shadow(0 0 30px rgba(150, 100, 255, 0.3))
-            drop-shadow(0 0 40px rgba(255, 100, 200, 0.2))
-        );
+        box-sizing: border-box;
         transition: var(--youtube-section-transition, all 0.3s ease);
     }
 
     .middle-section:hover {
-        filter: var(--youtube-drop-shadow-hover,
-            drop-shadow(0 0 30px rgba(100, 200, 255, 0.6))
-            drop-shadow(0 0 45px rgba(150, 100, 255, 0.5))
-            drop-shadow(0 0 60px rgba(255, 100, 200, 0.4))
-            drop-shadow(0 0 80px rgba(100, 255, 150, 0.3))
-        );
         transform: scale(var(--youtube-scale-hover, 1.02));
     }
 

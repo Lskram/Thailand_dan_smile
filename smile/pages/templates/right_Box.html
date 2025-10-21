@@ -37,7 +37,7 @@
         padding: 0;
         min-height: auto;
         display: flex;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: none;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         height: 90px;
         overflow: hidden;
@@ -51,32 +51,14 @@
     }
 
     /* แสงเรืองเบาๆ เมื่อยังไม่ hover */
-    .video-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg,
-                rgba(100, 200, 255, 0.05) 0%,
-                transparent 50%,
-                rgba(150, 100, 255, 0.05) 100%);
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        pointer-events: none;
-        z-index: 0;
-    }
+    .video-card::before { display: none; }
 
     .video-card:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.4);
-        transform: translateY(-5px) scale(1.03) !important;
+        transform: translateY(-6px) scale(1.04) !important;
         box-shadow:
-            0 8px 30px rgba(0, 0, 0, 0.5),
-            0 0 40px rgba(100, 200, 255, 0.5),
-            0 0 60px rgba(150, 100, 255, 0.4),
-            0 0 80px rgba(255, 100, 200, 0.3);
+            0 10px 30px rgba(0, 0, 0, 0.45),
+            0 0 40px rgba(100, 200, 255, 0.35),
+            0 0 60px rgba(150, 100, 255, 0.3);
     }
 
     .video-card:hover::before {

@@ -2,9 +2,8 @@
  * ========================================
  * Layout Configuration CSS
  * ========================================
- * ไฟล์นี้ใช้สำหรับปรับค่าขนาดของ Layout
- * เพียงแก้ไขตัวเลข % ตามต้องการ
- * Version: 2.0
+ * Version: 3.0 - Floating Items Design
+ * ลบ border, background ให้ไอเทมลอยบนวิดีโอพื้นหลัง
  * ========================================
  */
 
@@ -12,49 +11,35 @@
     /* ========================================
      * 📐 กำหนดขนาดกล่องหลัก (แนวนอน)
      * ======================================== */
-    --left-width: 20%;          /* กล่องซ้าย */
-    --center-width: 60%;        /* กล่องกลาง */
-    --right-width: 20%;         /* กล่องขวา */
-
-    /* หมายเหตุ: ผลรวมควรเป็น 100% */
-
+    --left-width: 20%;
+    --center-width: 60%;
+    --right-width: 20%;
 
     /* ========================================
      * 📐 กำหนดขนาดกล่องซ้าย (แนวตั้ง)
      * ======================================== */
-    --left-top-height: 20%;     /* left_top.html - ส่วนบน */
-    --left-mid-height: 70%;     /* left_mid.html - ส่วนกลาง (คอมเมนท์) */
-    --left-low-height: 10%;     /* left_low.html - ส่วนล่าง (ควบคุมเสียง) */
-    
-    /* หมายเหตุ: ผลรวมควรเป็น 100% */
-
+    --left-top-height: 20%;
+    --left-mid-height: 70%;
+    --left-low-height: 10%;
 
     /* ========================================
      * 📐 กำหนดขนาดกล่องกลาง (แนวตั้ง)
      * ======================================== */
-    --center-top-height: 15%;    /* middle_top.html - ส่วนบน */
-    --center-main-height: 65%;   /* middle.html - ส่วนกลาง (YouTube) */
-    --center-bottom-height: 20%; /* mid-low.html - ส่วนล่าง */
-    
-    /* หมายเหตุ: ผลรวมควรเป็น 100% */
-
+    --center-top-height: 15%;
+    --center-main-height: 65%;
+    --center-bottom-height: 20%;
 
     /* ========================================
      * 📐 กำหนดขนาดกล่องขวา (แนวตั้ง)
      * ======================================== */
-    --right-top-height: 15%;     /* right_Box-top.html - ส่วนบน */
-    --right-mid-height: 70%;     /* right_Box.html - ส่วนกลาง (รายการวิดีโอ) */
-    --right-low-height: 15%;     /* right_Box-low.html - ส่วนล่าง */
-    
-    /* หมายเหตุ: ผลรวมควรเป็น 100% */
-
+    --right-top-height: 15%;
+    --right-mid-height: 70%;
+    --right-low-height: 15%;
 
     /* ========================================
-     * 🎨 Border & Spacing
+     * 🎨 Spacing - ไม่มี border
      * ======================================== */
-    --section-border-color: rgba(255, 255, 255, 0.1);
     --section-padding: 20px;
-
 
     /* ========================================
      * 📱 Responsive Breakpoints
@@ -78,7 +63,7 @@
 
 
 /* ========================================
- * 🟦 กล่องซ้าย
+ * 🟦 กล่องซ้าย - โปร่งใส ไม่มี border
  * ======================================== */
 .left {
     display: flex;
@@ -86,22 +71,15 @@
     gap: 0;
     height: 100%;
     overflow: hidden;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.15) 0%,
-        rgba(255, 255, 255, 0.08) 100%
-    );
-    backdrop-filter: blur(20px);
+    background: transparent;
+    backdrop-filter: none;
 }
 
 .left-section {
-    border-bottom: 1px solid var(--section-border-color);
+    border: none;
     padding: var(--section-padding);
     overflow: hidden;
-}
-
-.left-section:last-child {
-    border-bottom: none;
+    background: transparent;
 }
 
 .left-section.top {
@@ -123,7 +101,7 @@
 
 
 /* ========================================
- * 🟩 กล่องกลาง
+ * 🟩 กล่องกลาง - โปร่งใส ไม่มี border
  * ======================================== */
 .center {
     display: flex;
@@ -131,19 +109,16 @@
     gap: 0;
     height: 100%;
     overflow: hidden;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        rgba(255, 255, 255, 0.05) 100%
-    );
-    backdrop-filter: blur(20px);
+    background: transparent;
+    backdrop-filter: none;
 }
 
 .center-section.top {
     flex: 0 0 var(--center-top-height);
     height: var(--center-top-height);
-    border-bottom: 1px solid var(--section-border-color);
+    border: none;
     padding: var(--section-padding);
+    background: transparent;
 }
 
 .center-section.main {
@@ -152,22 +127,24 @@
     min-height: 0;
     overflow: hidden;
     padding: var(--section-padding);
+    background: transparent;
 }
 
 .center-section.bottom {
     flex: 0 0 var(--center-bottom-height);
     height: var(--center-bottom-height);
-    border-top: 1px solid var(--section-border-color);
+    border: none;
     padding: 15px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: transparent;
 }
 
 
 /* ========================================
- * 🟨 กล่องขวา
+ * 🟨 กล่องขวา - โปร่งใส ไม่มี border
  * ======================================== */
 .right {
     display: flex;
@@ -175,22 +152,15 @@
     gap: 0;
     height: 100%;
     overflow: hidden;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.15) 0%,
-        rgba(255, 255, 255, 0.08) 100%
-    );
-    backdrop-filter: blur(20px);
+    background: transparent;
+    backdrop-filter: none;
 }
 
 .right-section {
-    border-bottom: 1px solid var(--section-border-color);
+    border: none;
     padding: var(--section-padding);
     overflow: hidden;
-}
-
-.right-section:last-child {
-    border-bottom: none;
+    background: transparent;
 }
 
 .right-section.top {
@@ -212,28 +182,27 @@
 
 
 /* ========================================
- * 📜 Scrollbar Styling
+ * 📜 Scrollbar Styling - โปร่งใสแบบบาง
  * ======================================== */
 .left-section.mid::-webkit-scrollbar,
 .right-section.mid::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
 }
 
 .left-section.mid::-webkit-scrollbar-track,
 .right-section.mid::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
+    background: transparent;
 }
 
 .left-section.mid::-webkit-scrollbar-thumb,
 .right-section.mid::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
 }
 
 .left-section.mid::-webkit-scrollbar-thumb:hover,
 .right-section.mid::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.3);
 }
 
 
